@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+version = "2.1.1"
+
 #from distutils.core import setup
 
 from setuptools import setup, find_packages
@@ -8,13 +10,35 @@ import glob
 import os
 from cloudmesh_base.base import banner
 
-# try:
-#     from fabric.api import local
-# except:
-#     os.system("pip install fabric")
-#     from fabric.api import local
-
 home = os.path.expanduser("~")
+
+#
+# MANAGE VERSION NUMBER
+#
+
+#
+# read
+#
+with open("cloudmesh_base/__init__.py", "r") as f:
+    content = f.read()
+
+if content != 'version = "{0}"'.format(version):
+    banner("Updating version to {0}".format(version))
+    with open("cloudmesh_base/__init__.py", "w") as text_file:
+        text_file.write('version="%s"' % version)
+
+
+class UploadToPypi(install):
+    """Upload the package to pypi."""
+    def run(self):
+        banner("Build Distribution")
+        os.system("python setup.py sdist --format=bztar,zip upload")        
+
+class RegisterWithPypi(install):
+    """Upload the package to pypi."""
+    def run(self):
+        banner("Register with Pypi")
+        os.system("python setup.py register")        
 
         
 class InstallBase(install):
@@ -39,7 +63,7 @@ class InstallAll(install):
         
 setup(
     name='cloudmesh_base',
-    version=__import__('cloudmesh_base').__version__,
+    version=version,
     description='A set of simple base functions and classes useful for cloudmesh and other programs',
     # description-file =
     #    README.rst
@@ -67,30 +91,12 @@ setup(
         'Environment :: OpenStack',
     ],
     packages=find_packages(),
-    include_package_data=True,
-#    data_files=[
-#        (home + '/.cloudmesh', [
-#            'etc/FGLdapCacert.pem',
-#            'etc/india-havana-cacert.pem',
-#            'etc/cloudmesh_flavor.yaml']),
-#        (home + '/.cloudmesh/etc', [
-#            'etc/cloudmesh.yaml',
-#            'etc/me-none.yaml',
-#            'etc/cloudmesh.yaml',
-#            'etc/cloudmesh_server.yaml',
-#            'etc/cloudmesh_rack.yaml',
-#            'etc/cloudmesh_celery.yaml',
-#            'etc/cloudmesh_mac.yaml',
-#            'etc/cloudmesh_flavor.yaml',
-#            'etc/ipython_notebook_config.py']),
-#    ],
-#    entry_points={'console_scripts': [
-#        'cm-cluster = cloudmesh.cluster.cm_shell_cluster:main',
-#    ]},
     cmdclass={
         'install': InstallBase,
         'requirements': InstallRequirements,
         'all': InstallAll,
+        'pypi': UploadToPypi,
+        'pypiregister': RegisterWithPypi,        
         },
 )
 
