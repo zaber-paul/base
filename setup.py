@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.1.1"
+version = "2.1.2"
 
 #from distutils.core import setup
 
@@ -9,6 +9,8 @@ from setuptools.command.install import install
 import glob
 import os
 from cloudmesh_base.base import banner
+
+banner("Installing Cloudmesh Base")
 
 home = os.path.expanduser("~")
 
@@ -31,6 +33,8 @@ if content != 'version = "{0}"'.format(version):
 class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
+        os.system("Make clean Install")
+        os.system("python setup.py install")                
         banner("Build Distribution")
         os.system("python setup.py sdist --format=bztar,zip upload")        
 
