@@ -8,6 +8,8 @@ You can install it in one of two ways.
 Instalation with explicit calls
 -----------------------------------
 
+::
+
   pip install -r requirements.txt
   python setup.py install
   
