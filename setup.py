@@ -2,7 +2,6 @@
 
 #from distutils.core import setup
 
-
 from setuptools import setup, find_packages
 from setuptools.command.install import install
 import glob
@@ -17,12 +16,27 @@ from cloudmesh_base.base import banner
 
 home = os.path.expanduser("~")
 
-class InstallFancy(install):
-    """Test of a custom install."""
+        
+class InstallBase(install):
+    """Install the package."""
     def run(self):
         banner("Install Cloudmesh Base")
         install.run(self)
 
+class InstallRequirements(install):
+    """Install the requirements."""
+    def run(self):
+        banner("Install Cloudmesh Base Requirements")
+        os.system("pip install -r requirements.txt")
+        
+class InstallAll(install):
+    """Install requirements and the package."""
+    def run(self):
+        banner("Install Cloudmesh Base Requirements")
+        os.system("pip install -r requirements.txt")
+        banner("Install Cloudmesh Base")        
+        install.run(self)
+        
 setup(
     name='cloudmesh_base',
     version=__import__('cloudmesh_base').__version__,
@@ -74,7 +88,9 @@ setup(
 #        'cm-cluster = cloudmesh.cluster.cm_shell_cluster:main',
 #    ]},
     cmdclass={
-        'install': InstallFancy,
+        'install': InstallBase,
+        'requirements': InstallRequirements,
+        'all': InstallAll,
         },
 )
 
