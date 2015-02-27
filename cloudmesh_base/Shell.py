@@ -1,5 +1,6 @@
 import sh
 import os
+import shutil
 
 class Shell(object):
 
@@ -100,7 +101,7 @@ class Shell(object):
         else:
             head, tail = os.path.split(newdir)
             if head and not os.path.isdir(head):
-                mkdir(head)
+                os.mkdir(head)
             if tail:
                 os.mkdir(newdir)
 

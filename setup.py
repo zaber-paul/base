@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.1.3"
+version = "2.1.4"
 
 #from distutils.core import setup
 
@@ -21,6 +21,8 @@ home = os.path.expanduser("~")
 #
 # read
 #
+
+
 with open("cloudmesh_base/__init__.py", "r") as f:
     content = f.read()
 
