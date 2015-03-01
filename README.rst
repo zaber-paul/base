@@ -21,13 +21,3 @@ The above is also available as integrated command::
   python setup.py all
   
 It will in addition to the install also install the requirements
-  
-
-
-
-
-
-
-
-# base
-Some base for many cloudmesh functions

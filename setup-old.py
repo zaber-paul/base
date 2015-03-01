@@ -31,7 +31,7 @@ if content != 'version = "{0}"'.format(version):
     with open("cloudmesh_base/__init__.py", "w") as text_file:
         text_file.write('version="%s"' % version)
 
-'''
+
 class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
@@ -66,8 +66,7 @@ class InstallAll(install):
         os.system("pip install -r requirements.txt")
         banner("Install Cloudmesh Base")        
         install.run(self)
-'''
-                
+        
 setup(
     name='cloudmesh_base',
     version=version,
@@ -98,5 +97,12 @@ setup(
         'Environment :: OpenStack',
     ],
     packages=find_packages(),
+    cmdclass={
+        'install': InstallBase,
+        'requirements': InstallRequirements,
+        'all': InstallAll,
+        'pypi': UploadToPypi,
+        'pypiregister': RegisterWithPypi,        
+        },
 )
 

@@ -122,6 +122,10 @@ class Shell(object):
         return cls._execute(sh.nova, *args, **kwargs)
                                             
     @classmethod
+    def ping(cls, *args, **kwargs):
+        return cls._execute(sh.ping, *args, **kwargs)
+                                            
+    @classmethod
     def pwd(cls, *args, **kwargs):
         return cls._execute(sh.pwd, *args, **kwargs)
                                             
