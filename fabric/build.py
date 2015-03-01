@@ -3,7 +3,7 @@ from fabric.api import task, local, execute
 import clean
 import os
 
-__all__ = ['fast', 'sdist', 'install', 'sphinx']
+__all__ = ['sdist']
     
 @task
 def sdist():
