@@ -25,6 +25,15 @@ class Shell(object):
 #       else:
 #           return f(args).rstrip('\n')
 
+
+    @classmethod
+    def cat(cls, *args, **kwargs):
+        '''
+        the cat command
+        :param cls:
+        '''
+        return cls._execute(sh.cat, *args, **kwargs)
+
                 
     @classmethod
     def git(cls, *args, **kwargs):
