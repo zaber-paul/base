@@ -1,14 +1,39 @@
 #!/usr/bin/env python
 
-version = "2.1.9"
+version = "2.1.11"
+
+requirements =     [
+        'future',             
+        'sh',
+        'docopt',
+        'pyaml',
+        'simplejson',
+        'nose',
+    ]
 
 #from distutils.core import setup
 
 from setuptools import setup, find_packages
-#from setuptools.command.install import install
+from setuptools.command.install import install
 import glob
 import os
 from cloudmesh_base.util import banner
+
+
+#
+# AUTOCREATE REQUIREMENTS FROM ARRAY
+#
+def auto_create_requirements():
+    banner("Creating requirements.txt file")
+    with open("requirements.txt", "r") as f:
+        file_content = f.read()
+        
+    setup_requirements = '\n'.join(requirements)
+    
+    if setup_requirements != file_content:
+        with open("requirements.txt", "w") as text_file:
+            text_file.write(setup_requirements)
+
 
 banner("Installing Cloudmesh Base")
 
@@ -18,24 +43,27 @@ home = os.path.expanduser("~")
 # MANAGE VERSION NUMBER
 #
 
-#
-# read
-#
+def auto_create_version():
+    with open("cloudmesh_base/__init__.py", "r") as f:
+        content = f.read()
+    
+    if content != 'version = "{0}"'.format(version):
+        banner("Updating version to {0}".format(version))
+        with open("cloudmesh_base/__init__.py", "w") as text_file:
+            text_file.write('version="%s"' % version)
 
-
-with open("cloudmesh_base/__init__.py", "r") as f:
-    content = f.read()
-
-if content != 'version = "{0}"'.format(version):
-    banner("Updating version to {0}".format(version))
-    with open("cloudmesh_base/__init__.py", "w") as text_file:
-        text_file.write('version="%s"' % version)
+auto_create_version()
 
 # banner("Install Cloudmesh Base Requirements")
 # os.system("pip install -r requirements.txt")
 
+
+class CreateRequirementsFile(install):
+    """Create the requiremnets file."""
+    def run(self):    
+        auto_create_requirements()
         
-'''
+        
 class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
@@ -70,7 +98,7 @@ class InstallAll(install):
         os.system("pip install -r requirements.txt")
         banner("Install Cloudmesh Base")        
         install.run(self)
-'''
+
                 
 setup(
     name='cloudmesh_base',
@@ -101,6 +129,15 @@ setup(
         'Framework :: Flask',
         'Environment :: OpenStack',
     ],
+    install_requires=requirements,
     packages=find_packages(),
+    cmdclass={
+        'install': InstallBase,
+        'requirements': InstallRequirements,
+        'all': InstallAll,
+        'pypi': UploadToPypi,
+        'pypiregister': RegisterWithPypi, 
+        'create_requirements': CreateRequirementsFile,
+        },
 )
 
