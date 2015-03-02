@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-version = "2.1.5"
+version = "2.1.9"
 
 #from distutils.core import setup
 
 from setuptools import setup, find_packages
-from setuptools.command.install import install
+#from setuptools.command.install import install
 import glob
 import os
 from cloudmesh_base.util import banner
@@ -31,6 +31,10 @@ if content != 'version = "{0}"'.format(version):
     with open("cloudmesh_base/__init__.py", "w") as text_file:
         text_file.write('version="%s"' % version)
 
+# banner("Install Cloudmesh Base Requirements")
+# os.system("pip install -r requirements.txt")
+
+        
 '''
 class UploadToPypi(install):
     """Upload the package to pypi."""

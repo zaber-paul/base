@@ -1,28 +1,28 @@
 """Some simple yaml file reader"""
 
 from __future__ import print_function
-from cloudmesh_base.util import path_expand
-from cloudmesh_base.logger import LOGGER
-from cloudmesh_base.util import backup_name
-from cloudmesh_base.locations import config_file
+
+import ast
 from collections import OrderedDict
-import simplejson
-from pprint import pprint
-import yaml
 import json
 import os
+from pprint import pprint
 import stat
-import sys
-import ast
-import traceback
 from string import Template
+import sys
+import traceback
+
+from cloudmesh_base.locations import config_file
+from cloudmesh_base.logger import LOGGER
+from cloudmesh_base.util import backup_name, path_expand
+import simplejson
+import yaml
+
 
 log = LOGGER(__file__)
-
-
 package_dir = os.path.dirname(os.path.abspath(__file__))
-
 attribute_indent = 4
+
 
 def check_file_for_tabs(filename, verbose=True):
     """identifies if the file contains tabs and returns True if it
@@ -51,6 +51,13 @@ def check_file_for_tabs(filename, verbose=True):
 # http://stackoverflow.com/questions/5121931/in-python-how-can-you-load-yaml-mappings-as-ordereddicts
 
 def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
+    '''
+    Loads an ordered dict into a yaml while preserving the order
+    
+    :param stream: the anme of the stream
+    :param Loader: the yam loader (such as yaml.SafeLoader)
+    :param object_pairs_hook: the ordered dict
+    '''
     class OrderedLoader(Loader):
         pass
 
@@ -67,6 +74,13 @@ def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
 
 
 def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
+    '''
+    writes the dict into an ordered yaml.
+    
+    :param data: The ordered dict
+    :param stream: the stream
+    :param Dumper: the dumper such as yaml.SafeDumper
+    '''
     class OrderedDumper(Dumper):
         pass
 
@@ -162,12 +176,23 @@ def custom_print(data_structure, indent):
 
 
 class ConfigDict (OrderedDict):
+    '''
+    A class to obtain an OrderedDict from a yaml file.
+    '''
 
     def _set_filename(self, filename):
+        '''
+        Sets the filename to be used.
+        
+        :param filename: the filename
+        '''
         self['filename'] = filename
         self['location'] = path_expand(self["filename"])
 
     def __init__(self, *args, **kwargs):
+        '''
+        The initalization method
+        '''
         OrderedDict.__init__(self, *args, **kwargs)
 
         if 'filename' in kwargs:
@@ -187,28 +212,52 @@ class ConfigDict (OrderedDict):
         self._update_meta()
 
     def _update_meta(self):
+        '''
+        internal function to define the metadata regarding filename, location, and prefix.
+        '''
         for v in ["filename", "location", "prefix"]:
             self["meta"][v] = self[v]
             del self[v]
 
     def read(self, filename):
-        """does the same as load"""
+        '''
+        Loads the information in the yaml file. It is the same as load and is used for compatibility reasons.
+        
+        :param filename: the name of the yaml file
+        '''
         self.load(filename)
 
     def load(self, filename):
+        '''
+        Loads the yaml file with the given filename.
+        
+        :param filename: the name of the yaml file
+        '''
         self._set_filename(filename)
         #d = OrderedDict(read_yaml_config(self['location'], check=True))
         d = read_yaml_config(self['location'], check=True)
         self.update(d)
 
     def make_a_copy(self, location=None):
+        '''
+        Creates a backup of the file specified in the location. The backup filename 
+        appends a .bak.NO where number is a number that is not yet used in the backup directory.
+        
+        TODO: This function should be moved to another file maybe XShell
+        
+        :param location: the location of the file to be backed up
+        '''
         import shutil
         dest = backup_name(location)
         shutil.copyfile(location, dest)
 
     def write(self, filename=None, format="dict", attribute_indent=attribute_indent):
-        """write the dict"""
-
+        '''
+        This method writes the dict into various formats. This includs a dict, json, and yaml
+        :param filename: the file in which the dict is written
+        :param format: is a string that is either "dict", "json", "yaml"
+        :param attribute_indent: character indentation of nested attributes in 
+        '''
         if filename is not None:
             location = path_expand(filename)
         else:
@@ -238,6 +287,11 @@ class ConfigDict (OrderedDict):
         os.close(f)
 
     def error_keys_not_found(self, keys):
+        '''
+        Check if the requested keys are found in the dict.
+        
+        :param keys: keys to be looked for
+        '''
         try:
             log.error("Filename: {0}".format(self['meta']['location']))
         except:
@@ -253,21 +307,36 @@ class ConfigDict (OrderedDict):
             indent = indent + "    "
 
     def __str__(self):
+        '''
+        returns the json format of the dict.
+        '''
         return self.json()
 
     def json(self):
+        '''
+        returns the json format of the dict.
+        '''
         return json.dumps(self, indent=attribute_indent)
 
     def yaml(self):
+        '''
+        returns the yaml format of the dict.
+        '''
         return ordered_dump(OrderedDict(self),
                             Dumper=yaml.SafeDumper,
                             default_flow_style=False)
     
     def dump(self):
+        '''
+        returns the json format of the dict.
+        '''
         orderedPrinter = OrderedJsonEncoder()
         return orderedPrinter.encode(self)
 
     def pprint(self):
+        '''
+        uses pprint to print the dict
+        '''
         print(custom_print(self, attribute_indent))
 
     """
@@ -344,6 +413,11 @@ class ConfigDict (OrderedDict):
         return self.set(value, keys)
 
     def attribute(self, keys):
+        '''
+        TODO: document this method
+        
+        :param keys:
+        '''
         if self['meta']['prefix'] is None:
             k = keys
         else:

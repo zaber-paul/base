@@ -2,6 +2,7 @@ from string import Template
 import os
 import sys
 
+  
 def banner(txt=None, c="#", debug=True):
     """prints a banner of the form with a frame of # arround the txt::
 

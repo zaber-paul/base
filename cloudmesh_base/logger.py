@@ -58,6 +58,10 @@ def LOGGER(filename):
 
 
 def LOGGING_ON(log):
+    '''
+    Switches logging on
+    :param log: the logger for which we switch logging on 
+    '''
     try:
         log.setLevel(logging.DEBUG)
         return True
@@ -66,6 +70,10 @@ def LOGGING_ON(log):
 
 
 def LOGGING_OFF(log):
+    '''
+    Switches logging off
+    :param log: the logger for which we switch logging off
+    '''
     try:
         log.setLevel(logging.CRITICAL)
         return True
