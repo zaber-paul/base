@@ -7,7 +7,7 @@ class Shell(object):
     #    @classmethod
     #    def ls(cls, arguments=None):
     #        return cls._execute(sh.ls, arguments)
-    
+
     
     @classmethod
     def _execute(cls, f, *args, **kwargs):
