@@ -1,7 +1,8 @@
 from string import Template
 import os
 import sys
-
+import inspect
+import functools
   
 def banner(txt=None, c="#", debug=True):
     """prints a banner of the form with a frame of # arround the txt::

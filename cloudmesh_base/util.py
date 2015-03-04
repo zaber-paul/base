@@ -1,6 +1,7 @@
-from string import Template
 import os
+from string import Template
 import sys
+
 
 def grep(pattern, filename):
     """Very simple grep that returns the first matching line in a file.
