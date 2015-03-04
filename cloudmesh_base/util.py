@@ -1,6 +1,8 @@
 import os
 from string import Template
 import sys
+import functools
+import inspect
 
 
 def grep(pattern, filename):
