@@ -1,6 +1,8 @@
-import sh
 import os
 import shutil
+
+import sh
+
 
 class Shell(object):
 

@@ -1,6 +1,7 @@
-from cloudmesh_base.locations import config_file
 import logging
 import os
+
+from cloudmesh_base.locations import config_file
 from cloudmesh_base.util import grep
 
 

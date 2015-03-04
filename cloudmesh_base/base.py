@@ -1,9 +1,10 @@
-from string import Template
-import os
-import sys
-import inspect
 import functools
-  
+import inspect
+import os
+from string import Template
+import sys
+
+
 def banner(txt=None, c="#", debug=True):
     """prints a banner of the form with a frame of # arround the txt::
 

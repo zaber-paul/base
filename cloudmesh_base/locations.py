@@ -1,5 +1,6 @@
 from cloudmesh_base.util import path_expand
 
+
 __config_dir_prefix__ = "~/.cloudmesh"
 
 __config_dir__ = path_expand(__config_dir_prefix__)

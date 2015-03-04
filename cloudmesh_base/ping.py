@@ -1,6 +1,7 @@
 '''Ping a machine'''
 
-import sh 
+import sh
+
 
 def ping(host):
     '''ping the specified host.
