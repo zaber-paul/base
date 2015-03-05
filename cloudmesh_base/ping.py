@@ -1,6 +1,6 @@
 '''Ping a machine'''
 
-import sh
+from cloudmesh_base.Shell import Shell 
 
 
 def ping(host):
@@ -9,7 +9,7 @@ def ping(host):
     :param host: the name or ip of the host
     '''
     try:
-        result = sh.ping("-o", "-c", "1", host).strip().split("\n")
+        result = Shell.ping("-o", "-c", "1", host).strip().split("\n")
     except:
         pass
 

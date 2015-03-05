@@ -2,7 +2,7 @@
 
 version = "2.2.0"
 
-requirements =     [
+requirements = [
         'future',             
         'sh',
         'docopt',
@@ -11,11 +11,10 @@ requirements =     [
         'nose',
     ]
 
-#from distutils.core import setup
+# from distutils.core import setup
 
 from setuptools import setup, find_packages
 from setuptools.command.install import install
-import glob
 import os
 from cloudmesh_base.util import banner
 
@@ -43,6 +42,7 @@ home = os.path.expanduser("~")
 # MANAGE VERSION NUMBER
 #
 
+
 def auto_create_version():
     with open("cloudmesh_base/__init__.py", "r") as f:
         content = f.read()
@@ -50,7 +50,7 @@ def auto_create_version():
     if content != 'version = "{0}"'.format(version):
         banner("Updating version to {0}".format(version))
         with open("cloudmesh_base/__init__.py", "w") as text_file:
-            text_file.write('version="%s"' % version)
+            text_file.write('version = "%s"' % version)
 
 auto_create_version()
 
@@ -73,6 +73,7 @@ class UploadToPypi(install):
         banner("Build Distribution")
         os.system("python setup.py sdist --format=bztar,zip upload")        
 
+
 class RegisterWithPypi(install):
     """Upload the package to pypi."""
     def run(self):
@@ -86,12 +87,14 @@ class InstallBase(install):
         banner("Install Cloudmesh Base")
         install.run(self)
 
+
 class InstallRequirements(install):
     """Install the requirements."""
     def run(self):
         banner("Install Cloudmesh Base Requirements")
         os.system("pip install -r requirements.txt")
         
+
 class InstallAll(install):
     """Install requirements and the package."""
     def run(self):

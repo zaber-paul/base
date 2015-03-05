@@ -15,6 +15,7 @@ import traceback
 from cloudmesh_base.locations import config_file
 from cloudmesh_base.logger import LOGGER
 from cloudmesh_base.util import backup_name, path_expand
+
 import simplejson
 import yaml
 
@@ -44,20 +45,20 @@ def check_file_for_tabs(filename, verbose=True):
                 i for i in range(len(line)) if line.startswith('\t', i)]
             if verbose:
                 print("Tab found in line", line_no, "and column(s)", location)
-        line_no = line_no + 1
+        line_no += 1
     return file_contains_tabs
 
 
 # http://stackoverflow.com/questions/5121931/in-python-how-can-you-load-yaml-mappings-as-ordereddicts
 
 def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
-    '''
+    """
     Loads an ordered dict into a yaml while preserving the order
-    
+
     :param stream: the anme of the stream
     :param Loader: the yam loader (such as yaml.SafeLoader)
     :param object_pairs_hook: the ordered dict
-    '''
+    """
     class OrderedLoader(Loader):
         pass
 
@@ -74,13 +75,13 @@ def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
 
 
 def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
-    '''
+    """
     writes the dict into an ordered yaml.
-    
+
     :param data: The ordered dict
     :param stream: the stream
     :param Dumper: the dumper such as yaml.SafeDumper
-    '''
+    """
     class OrderedDumper(Dumper):
         pass
 
@@ -96,7 +97,7 @@ def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
 
 
 def read_yaml_config(filename, check=True, osreplace=True):
-    '''
+    """
     reads in a yaml file from the specified filename. If check is set to true
     the code will faile if the file does not exist. However if it is set to
     false and the file does not exist, None is returned.
@@ -104,7 +105,7 @@ def read_yaml_config(filename, check=True, osreplace=True):
     :param filename: the file name
     :param check: if True fails if the file does not exist,
                   if False and the file does not exist return will be None
-    '''
+    """
     location = filename
     if location is not None:
         location = path_expand(location)
@@ -126,12 +127,12 @@ def read_yaml_config(filename, check=True, osreplace=True):
                 t = Template(result)
                 result = t.substitute(os.environ)
 
-                data = yaml.safe_load(result)
+                # data = yaml.safe_load(result)
                 data = ordered_load(result, yaml.SafeLoader)
             else:
                 f = open(location, "r")
 
-                data = yaml.safe_load(f)
+                # data = yaml.safe_load(f)
 
                 data = ordered_load(result, yaml.SafeLoader)
                 f.close()
@@ -157,7 +158,7 @@ class OrderedJsonEncoder(simplejson.JSONEncoder):
 
     def encode(self, o, depth=0):
         if isinstance(o, OrderedDict):
-            return "{" + (",\n ").join([self.encode(k) + ":" + \
+            return "{" + ",\n ".join([self.encode(k) + ":" + \
                                         self.encode(v, depth + 1) \
                                         for (k, v) in o.iteritems()]) + "}\n"
         else:
@@ -175,31 +176,31 @@ def custom_print(data_structure, indent):
             print("%s" % (str(value)), end=' ')
 
 
-class ConfigDict (OrderedDict):
-    '''
+class ConfigDict(OrderedDict):
+    """
     A class to obtain an OrderedDict from a yaml file.
-    '''
+    """
 
     def _set_filename(self, filename):
-        '''
+        """
         Sets the filename to be used.
-        
+
         :param filename: the filename
-        '''
+        """
         self['filename'] = filename
         self['location'] = path_expand(self["filename"])
 
     def __init__(self, *args, **kwargs):
-        '''
+        """
         The initalization method
-        '''
+        """
         OrderedDict.__init__(self, *args, **kwargs)
 
         if 'filename' in kwargs:
             self._set_filename(kwargs['filename'])
         else:
             log.error("filename not specified")
-            #sys.exit()
+            # sys.exit()
 
         self.load(self['location'])
 
@@ -212,52 +213,57 @@ class ConfigDict (OrderedDict):
         self._update_meta()
 
     def _update_meta(self):
-        '''
-        internal function to define the metadata regarding filename, location, and prefix.
-        '''
+        """
+        internal function to define the metadata regarding filename, location,
+        and prefix.
+        """
         for v in ["filename", "location", "prefix"]:
             self["meta"][v] = self[v]
             del self[v]
 
     def read(self, filename):
-        '''
-        Loads the information in the yaml file. It is the same as load and is used for compatibility reasons.
-        
+        """
+        Loads the information in the yaml file. It is the same as load and is
+        used for compatibility reasons.
+
         :param filename: the name of the yaml file
-        '''
+        """
         self.load(filename)
 
     def load(self, filename):
-        '''
+        """
         Loads the yaml file with the given filename.
-        
+
         :param filename: the name of the yaml file
-        '''
+        """
         self._set_filename(filename)
-        #d = OrderedDict(read_yaml_config(self['location'], check=True))
+        # d = OrderedDict(read_yaml_config(self['location'], check=True))
         d = read_yaml_config(self['location'], check=True)
         self.update(d)
 
     def make_a_copy(self, location=None):
-        '''
-        Creates a backup of the file specified in the location. The backup filename 
-        appends a .bak.NO where number is a number that is not yet used in the backup directory.
-        
+        """
+        Creates a backup of the file specified in the location. The backup
+        filename  appends a .bak.NO where number is a number that is not yet
+        used in the backup directory.
+
         TODO: This function should be moved to another file maybe XShell
-        
+
         :param location: the location of the file to be backed up
-        '''
+        """
         import shutil
         dest = backup_name(location)
         shutil.copyfile(location, dest)
 
     def write(self, filename=None, format="dict", attribute_indent=attribute_indent):
-        '''
-        This method writes the dict into various formats. This includs a dict, json, and yaml
+        """
+        This method writes the dict into various formats. This includs a dict,
+        json, and yaml
+
         :param filename: the file in which the dict is written
         :param format: is a string that is either "dict", "json", "yaml"
-        :param attribute_indent: character indentation of nested attributes in 
-        '''
+        :param attribute_indent: character indentation of nested attributes in
+        """
         if filename is not None:
             location = path_expand(filename)
         else:
@@ -274,8 +280,8 @@ class ConfigDict (OrderedDict):
         if format == "json":
             os.write(f, self.json())
         elif format in ['yml', 'yaml']:
-            #d = dict(self)
-            #os.write(f, yaml.dump(d, default_flow_style=False))
+            # d = dict(self)
+            # os.write(f, yaml.dump(d, default_flow_style=False))
             os.write(f, ordered_dump(OrderedDict(self),
                                      Dumper=yaml.SafeDumper,
                                      default_flow_style=False,
@@ -287,11 +293,11 @@ class ConfigDict (OrderedDict):
         os.close(f)
 
     def error_keys_not_found(self, keys):
-        '''
+        """
         Check if the requested keys are found in the dict.
-        
+
         :param keys: keys to be looked for
-        '''
+        """
         try:
             log.error("Filename: {0}".format(self['meta']['location']))
         except:
@@ -307,36 +313,36 @@ class ConfigDict (OrderedDict):
             indent = indent + "    "
 
     def __str__(self):
-        '''
+        """
         returns the json format of the dict.
-        '''
+        """
         return self.json()
 
     def json(self):
-        '''
+        """
         returns the json format of the dict.
-        '''
+        """
         return json.dumps(self, indent=attribute_indent)
 
     def yaml(self):
-        '''
+        """
         returns the yaml format of the dict.
-        '''
+        """
         return ordered_dump(OrderedDict(self),
                             Dumper=yaml.SafeDumper,
                             default_flow_style=False)
-    
+
     def dump(self):
-        '''
+        """
         returns the json format of the dict.
-        '''
+        """
         orderedPrinter = OrderedJsonEncoder()
         return orderedPrinter.encode(self)
 
     def pprint(self):
-        '''
+        """
         uses pprint to print the dict
-        '''
+        """
         print(custom_print(self, attribute_indent))
 
     """
@@ -351,13 +357,13 @@ class ConfigDict (OrderedDict):
 
     def get(self, *keys):
         """
-        returns the dict of the information as read from the yaml
-        file. To access the file safely, you can use the keys in the
-        order of the access.  Example: get("provisiner","policy") will
-        return the value of config["provisiner"]["policy"] from the
-        yaml file if it does not exists an error will be printing that
-        the value does not exists.  Alternatively you can
-        use the . notation e.g. get("provisiner.policy")
+        returns the dict of the information as read from the yaml file. To
+        access the file safely, you can use the keys in the order of the
+        access.
+        Example: get("provisiner","policy") will return the value of
+        config["provisiner"]["policy"] from the yaml file if it does not exists
+        an error will be printing that the value does not exists. Alternatively
+        you can use the . notation e.g. get("provisiner.policy")
         """
         if keys is None:
             return self
@@ -370,7 +376,7 @@ class ConfigDict (OrderedDict):
                 element = element[v]
             except KeyError:
                 self.error_keys_not_found(keys)
-                #sys.exit()
+                # sys.exit()
         return element
 
     def set(self, value, *keys):
@@ -378,9 +384,9 @@ class ConfigDict (OrderedDict):
         Sets the dict of the information as read from the yaml file. To access
         the file safely, you can use the keys in the order of the access.
         Example: set("{'project':{'fg82':[i0-i10]}}", "provisiner","policy")
-        will set the value of config["provisiner"]["policy"] in the yaml
-        file if it does not exists an error will be printing that the value does
-        not exists.  Alternatively you can use the . notation e.g.
+        will set the value of config["provisiner"]["policy"] in the yaml file if
+        it does not exists an error will be printing that the value does not
+        exists.  Alternatively you can use the . notation e.g.
         set("{'project':{'fg82':[i0-i10]}}", "provisiner.policy")
         """
         element = self
@@ -391,7 +397,7 @@ class ConfigDict (OrderedDict):
         if '.' in keys[0]:
             keys = keys[0].split(".")
 
-        nested_str = ''.join([ "['{0}']".format(x) for x in keys ])
+        nested_str = ''.join(["['{0}']".format(x) for x in keys])
         # Safely evaluate an expression to see if it is one of the PYthon
         # literal structures: strings, numbers, tuples, lists, dicts, booleans,
         # and None. Quoted string will be used if it is none of these types.
@@ -413,11 +419,11 @@ class ConfigDict (OrderedDict):
         return self.set(value, keys)
 
     def attribute(self, keys):
-        '''
+        """
         TODO: document this method
-        
+
         :param keys:
-        '''
+        """
         if self['meta']['prefix'] is None:
             k = keys
         else:
@@ -453,7 +459,8 @@ if __name__ == "__main__":
     print("get A =", config.get("a"))
 
     print("wrong mongo.path ATTRIBUTE =", config.attribute("mongo.path.wrong"))
-    print("wrong mongo.path GET =", config.get("cloudmesh.server.mongo.path.wrong"))
+    print("wrong mongo.path GET =",
+          config.get("cloudmesh.server.mongo.path.wrong"))
 
     # print config["dummy"]
     # config["x"] = "2"

@@ -1,7 +1,5 @@
 import os
 from string import Template
-import sys
-import functools
 import inspect
 
 
@@ -89,9 +87,9 @@ def HEADING(txt=None):
 
 def backup_name(filename):
     """
-    :param filename: given a filename creates a backupname of the form
+    :param filename: given a filename creates a backup name of the form
                      filename.bak.1. If the filename already exists
-                     the number will be increasd as  much as needed so
+                     the number will be increased as  much as needed so
                      the file does not exist in the given location.
                      The filename can consists a path and is expanded
                      with ~ and environment variables.

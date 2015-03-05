@@ -1,12 +1,12 @@
 cloudmesh_base 
-======================
+==============
 
-A set of simple fuctions that are used in cloudmesh but also could be used by other projects.
+A set of simple functions that are used in cloudmesh but also could be used by other projects.
 
 You can install it in one of two ways. 
 
-Instalation with explicit calls
------------------------------------
+Installation with explicit calls
+--------------------------------
 
 ::
 
@@ -14,7 +14,7 @@ Instalation with explicit calls
   python setup.py install
   
 Install with custom install commands
-----------------------------------------
+------------------------------------
 
 The above is also available as integrated command::
 
