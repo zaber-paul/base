@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.2.0"
+version = "2.2.1"
 
 requirements = [
         'future',             
@@ -9,6 +9,9 @@ requirements = [
         'pyaml',
         'simplejson',
         'nose',
+        'python-hostlist',
+        'prettytable',
+        'pytimeparse',
     ]
 
 # from distutils.core import setup
@@ -91,6 +94,7 @@ class InstallBase(install):
 class InstallRequirements(install):
     """Install the requirements."""
     def run(self):
+        auto_create_requirements()
         banner("Install Cloudmesh Base Requirements")
         os.system("pip install -r requirements.txt")
         
