@@ -15,7 +15,7 @@ class GitInfo(object):
     * version number of the code
     * the list of people contributing to the code
     * emails of the people contributing
-    * a statistic about canged code by person
+    * a statistic about changed code by person
 
     Example::
 
@@ -37,7 +37,7 @@ class GitInfo(object):
 
     def version(self):
         '''
-        retruns the verison of the code from github
+        returns the verison of the code from github
         :rtype: the git tags
         '''
         return str(Shell.git("describe", "--tags"))[:-1]
@@ -48,7 +48,7 @@ class GitInfo(object):
         format is specified as an argument.
 
         :param format_arg: if "dict" is specified a dict will be returned
-        :rtype: dict or arry of e-mails dependent on format_arg
+        :rtype: dict or array of e-mails dependent on format_arg
         '''
         if format_arg is None:
             format_string = "'%aN' <%cE>"

@@ -191,8 +191,8 @@ def one_column_table(column, header='Value'):
 
 def table_printer(the_dict, header_info=None):
     """
-    prints recurseively a dict as an html. The header info is simpli
-    a list with collun names.
+    prints recursively a dict as an html. The header info is simply
+    a list with column names.
 
     :param the_dict: the dictionary to be printed.
     :param header_info: an array of two values that are used in the header

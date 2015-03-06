@@ -27,6 +27,6 @@ def ping(host):
     data['host'] = host
     return data
 
-# host = "india.futuregrid.org"
+# host = "google.com"
 
 # print ping(host)

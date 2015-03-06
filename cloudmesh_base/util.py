@@ -60,7 +60,7 @@ def banner(txt=None, c="#", debug=True):
 
     :param txt: a text message to be printed
     :type txt: string
-    :param c: thecharacter used instead of c
+    :param c: the character used instead of c
     :type c: character
     """
     if debug:

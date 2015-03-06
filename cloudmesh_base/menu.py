@@ -5,7 +5,7 @@ from __future__ import print_function
 def ascii_menu(title=None, menu_list=None):
     '''
     creates a simple ASCII menu from a list of tuples containing a label
-    and a functions refernec. The function should not use parameters.
+    and a functions reference. The function should not use parameters.
     :param title: the title of the menu
     :param menu_list: an array of tuples [('label', f1), ...]
     '''

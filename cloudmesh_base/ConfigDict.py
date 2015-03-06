@@ -55,7 +55,7 @@ def ordered_load(stream, Loader=yaml.Loader, object_pairs_hook=OrderedDict):
     """
     Loads an ordered dict into a yaml while preserving the order
 
-    :param stream: the anme of the stream
+    :param stream: the name of the stream
     :param Loader: the yam loader (such as yaml.SafeLoader)
     :param object_pairs_hook: the ordered dict
     """
@@ -99,7 +99,7 @@ def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
 def read_yaml_config(filename, check=True, osreplace=True):
     """
     reads in a yaml file from the specified filename. If check is set to true
-    the code will faile if the file does not exist. However if it is set to
+    the code will fail if the file does not exist. However if it is set to
     false and the file does not exist, None is returned.
 
     :param filename: the file name
@@ -257,7 +257,7 @@ class ConfigDict(OrderedDict):
 
     def write(self, filename=None, format="dict", attribute_indent=attribute_indent):
         """
-        This method writes the dict into various formats. This includs a dict,
+        This method writes the dict into various formats. This includes a dict,
         json, and yaml
 
         :param filename: the file in which the dict is written
@@ -360,10 +360,10 @@ class ConfigDict(OrderedDict):
         returns the dict of the information as read from the yaml file. To
         access the file safely, you can use the keys in the order of the
         access.
-        Example: get("provisiner","policy") will return the value of
-        config["provisiner"]["policy"] from the yaml file if it does not exists
+        Example: get("provisioner","policy") will return the value of
+        config["provisioner"]["policy"] from the yaml file if it does not exists
         an error will be printing that the value does not exists. Alternatively
-        you can use the . notation e.g. get("provisiner.policy")
+        you can use the . notation e.g. get("provisioner.policy")
         """
         if keys is None:
             return self
@@ -383,11 +383,11 @@ class ConfigDict(OrderedDict):
         """
         Sets the dict of the information as read from the yaml file. To access
         the file safely, you can use the keys in the order of the access.
-        Example: set("{'project':{'fg82':[i0-i10]}}", "provisiner","policy")
-        will set the value of config["provisiner"]["policy"] in the yaml file if
+        Example: set("{'project':{'fg82':[i0-i10]}}", "provisioner","policy")
+        will set the value of config["provisioner"]["policy"] in the yaml file if
         it does not exists an error will be printing that the value does not
         exists.  Alternatively you can use the . notation e.g.
-        set("{'project':{'fg82':[i0-i10]}}", "provisiner.policy")
+        set("{'project':{'fg82':[i0-i10]}}", "provisioner.policy")
         """
         element = self
 
@@ -398,7 +398,7 @@ class ConfigDict(OrderedDict):
             keys = keys[0].split(".")
 
         nested_str = ''.join(["['{0}']".format(x) for x in keys])
-        # Safely evaluate an expression to see if it is one of the PYthon
+        # Safely evaluate an expression to see if it is one of the Python
         # literal structures: strings, numbers, tuples, lists, dicts, booleans,
         # and None. Quoted string will be used if it is none of these types.
         try:
@@ -454,7 +454,7 @@ if __name__ == "__main__":
     # config.write(config_file("/print.yaml"), format="print")
 
     print("mongo.path GET =", config.get("cloudmesh.server.mongo.path"))
-    print("mongo.path ATTIRBUTE =", config.attribute("mongo.path"))
+    print("mongo.path ATTRIBUTE =", config.attribute("mongo.path"))
 
     print("get A =", config.get("a"))
 

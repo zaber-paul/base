@@ -14,7 +14,7 @@ class Shell(object):
     @classmethod
     def _execute(cls, f, *args, **kwargs):
         """
-        interanl method to execute a command with args and kwargs and passsed to an sh command
+        internal method to execute a command with args and kwargs and passed to an sh command
         :param cls: the classmethod
         :param f: the function to be executed
         """
