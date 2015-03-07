@@ -255,14 +255,13 @@ class ConfigDict(OrderedDict):
         dest = backup_name(location)
         shutil.copyfile(location, dest)
 
-    # TODO: change format= to output=
-    def write(self, filename=None, format="dict", attribute_indent=attribute_indent):
+    def write(self, filename=None, output="dict", attribute_indent=attribute_indent):
         """
-        This method writes the dict into various formats. This includes a dict,
+        This method writes the dict into various outout formats. This includes a dict,
         json, and yaml
 
         :param filename: the file in which the dict is written
-        :param format: is a string that is either "dict", "json", "yaml"
+        :param output: is a string that is either "dict", "json", "yaml"
         :param attribute_indent: character indentation of nested attributes in
         """
         if filename is not None:
@@ -278,16 +277,16 @@ class ConfigDict(OrderedDict):
 
         f = os.open(location, os.O_CREAT | os.O_TRUNC |
                     os.O_WRONLY, stat.S_IRUSR | stat.S_IWUSR)
-        if format == "json":
+        if output == "json":
             os.write(f, self.json())
-        elif format in ['yml', 'yaml']:
+        elif output in ['yml', 'yaml']:
             # d = dict(self)
             # os.write(f, yaml.dump(d, default_flow_style=False))
             os.write(f, ordered_dump(OrderedDict(self),
                                      Dumper=yaml.SafeDumper,
                                      default_flow_style=False,
                                      indent=attribute_indent))
-        elif format == "print":
+        elif output == "print":
             os.write(f, custom_print(self, attribute_indent))
         else:
             os.write(f, self.dump())
@@ -315,19 +314,19 @@ class ConfigDict(OrderedDict):
 
     def __str__(self):
         """
-        returns the json format of the dict.
+        returns the json output of the dict.
         """
         return self.json()
 
     def json(self):
         """
-        returns the json format of the dict.
+        returns the json output of the dict.
         """
         return json.dumps(self, indent=attribute_indent)
 
     def yaml(self):
         """
-        returns the yaml format of the dict.
+        returns the yaml output of the dict.
         """
         return ordered_dump(OrderedDict(self),
                             Dumper=yaml.SafeDumper,
@@ -335,7 +334,7 @@ class ConfigDict(OrderedDict):
 
     def dump(self):
         """
-        returns the json format of the dict.
+        returns the json output of the dict.
         """
         orderedPrinter = OrderedJsonEncoder()
         return orderedPrinter.encode(self)
@@ -447,12 +446,12 @@ if __name__ == "__main__":
 
     print(70 * "=")
     print("A =", config["a"])
-    config.write(config_file("/d.yaml"), format="dict")
-    config.write(config_file("/j.yaml"), format="json")
-    config.write(config_file("/y.yaml"), format="yaml")
+    config.write(config_file("/d.yaml"), output="dict")
+    config.write(config_file("/j.yaml"), output="json")
+    config.write(config_file("/y.yaml"), output="yaml")
 
     # this does not work
-    # config.write(config_file("/print.yaml"), format="print")
+    # config.write(config_file("/print.yaml"), output="print")
 
     print("mongo.path GET =", config.get("cloudmesh.server.mongo.path"))
     print("mongo.path ATTRIBUTE =", config.attribute("mongo.path"))
