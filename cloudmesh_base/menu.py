@@ -1,14 +1,14 @@
-'''Ascii menu class'''
+"""Ascii menu class"""
 from __future__ import print_function
 
 
 def ascii_menu(title=None, menu_list=None):
-    '''
+    """
     creates a simple ASCII menu from a list of tuples containing a label
     and a functions reference. The function should not use parameters.
     :param title: the title of the menu
     :param menu_list: an array of tuples [('label', f1), ...]
-    '''
+    """
     if not title:
         title = "Menu"
 
@@ -37,7 +37,7 @@ def ascii_menu(title=None, menu_list=None):
         else:
             try:
                 result = int(result) - 1
-                if result >= 0 and result < n:
+                if 0 <= result < n:
                     (label, f) = menu_list[result]
                     print("EXECUTING:", label, f.__name__)
                     f()
@@ -49,13 +49,13 @@ def ascii_menu(title=None, menu_list=None):
 
 
 def menu_return_num(title=None, menu_list=None, tries=1):
-    '''
+    """
     creates a simple ASCII menu from a list of labels
     :param title: the title of the menu
     :param menu_list: a list of labels to choose
     :param tries: num of tries till discard
     :return: choice num (head: 0), quit: return 'q'
-    '''
+    """
     if not title:
         title = "Menu"
 
@@ -85,9 +85,9 @@ def menu_return_num(title=None, menu_list=None, tries=1):
                 result = int(result)
             except:
                 print("invalid input...")
-                tries = tries - 1
+                tries -= 1
                 continue
-            if result > 0 and result <= n:
+            if 0 < result <= n:
                 print("choice {0} selected.".format(result))
                 return result - 1
             else:

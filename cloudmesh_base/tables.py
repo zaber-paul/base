@@ -256,7 +256,7 @@ def parse_time_interval(time_start, time_end):
 
 
 def dict_key_list_table_printer(d, indexed=False):
-    '''
+    """
     accept a dict in the form:
     {key1: [list1],
      key2: [list2],
@@ -267,7 +267,7 @@ def dict_key_list_table_printer(d, indexed=False):
      | i
      | s
      | t
-    '''
+    """
     x = PrettyTable()
     temp = d.values()
     l = 0

@@ -47,7 +47,7 @@ def yn_choice(message, default='y', tries=None):
                 return False
             else:
                 print "Invalid input..."
-                tries = tries - 1
+                tries -= 1
 
 def banner(txt=None, c="#", debug=True):
     """prints a banner of the form with a frame of # arround the txt::
@@ -100,7 +100,7 @@ def backup_name(filename):
     n = 0
     found = True
     while found:
-        n = n + 1
+        n += 1
         backup = "{0}.bak.{1}".format(location, n)
         found = os.path.isfile(backup)
     return backup

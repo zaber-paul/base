@@ -255,6 +255,7 @@ class ConfigDict(OrderedDict):
         dest = backup_name(location)
         shutil.copyfile(location, dest)
 
+    # TODO: change format= to output=
     def write(self, filename=None, format="dict", attribute_indent=attribute_indent):
         """
         This method writes the dict into various formats. This includes a dict,
@@ -310,7 +311,7 @@ class ConfigDict(OrderedDict):
                 log.error(indent + k + ": <- this value is missing")
             else:
                 log.error(indent + k + ":")
-            indent = indent + "    "
+            indent += "    "
 
     def __str__(self):
         """
