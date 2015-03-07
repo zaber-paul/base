@@ -120,6 +120,7 @@ def read_yaml_config(filename, check=True, osreplace=True):
             log.error("The file {0} contains tabs. yaml "
                       "Files are not allowed to contain tabs".format(location))
             sys.exit()
+        result = None
         try:
 
             if osreplace:
@@ -158,9 +159,9 @@ class OrderedJsonEncoder(simplejson.JSONEncoder):
 
     def encode(self, o, depth=0):
         if isinstance(o, OrderedDict):
-            return "{" + ",\n ".join([self.encode(k) + ":" + \
-                                        self.encode(v, depth + 1) \
-                                        for (k, v) in o.iteritems()]) + "}\n"
+            return "{" + ",\n ".join([self.encode(k) + ":" +
+                                     self.encode(v, depth + 1)
+                                     for (k, v) in o.iteritems()]) + "}\n"
         else:
             return simplejson.JSONEncoder.encode(self, o)
 

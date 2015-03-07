@@ -12,6 +12,7 @@ def grep(pattern, filename):
     except StopIteration:
         return ''
 
+
 def path_expand(text):
     """ returns a string with expanded variable.
 
@@ -32,7 +33,7 @@ def yn_choice(message, default='y', tries=None):
     """
     # http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input"""
     choices = 'Y/n' if default.lower() in ('y', 'yes') else 'y/N'
-    if tries == None:
+    if tries is None:
         choice = raw_input("%s (%s) " % (message, choices))
         values = ('y', 'yes', '') if default == 'y' else ('y', 'yes')
         return True if choice.strip().lower() in values else False
@@ -48,6 +49,7 @@ def yn_choice(message, default='y', tries=None):
             else:
                 print "Invalid input..."
                 tries -= 1
+
 
 def banner(txt=None, c="#", debug=True):
     """prints a banner of the form with a frame of # arround the txt::

@@ -7,6 +7,7 @@ import json
 import yaml
 import hostlist
 
+
 def dict_printer(d, order=None, header=None):
     """prints a pretty table from an dict of dicts
     :param d: A a dict with dicts of the same type.
@@ -44,13 +45,12 @@ def dict_printer(d, order=None, header=None):
     for element in d:
         values = [element]
         for key in order:
-            values.append(_get (element, key))
+            values.append(_get(element, key))
         x.add_row(values)
     x.align = "l"
     return x
 
-    
-    
+
 def print_format_dict(d, header=None, kind='table'):
     """kind = json, yaml, table, pprint"""
     if kind == "json":
@@ -130,6 +130,7 @@ def column_table(column_dict, order=None):
     x.align = "l"
     return x
 
+
 def row_table(d, order=None, labels=None):
     """prints a pretty table from data in the dict.
     :param d: A dict to be printed
@@ -151,13 +152,12 @@ def row_table(d, order=None, labels=None):
             value_keys = value.keys()
             first_key = value_keys[0]
             rest_keys = value_keys[1:]
-            x.add_row([key, "{0} : {1}".format(first_key,value[first_key])])            
+            x.add_row([key, "{0} : {1}".format(first_key, value[first_key])])
             for element in rest_keys:
-                x.add_row(["", "{0} : {1}".format(element,value[element])])
+                x.add_row(["", "{0} : {1}".format(element, value[element])])
         else: 
             x.add_row([key, value])
 
-        
     x.align = "l"
     return x
 
@@ -166,8 +166,9 @@ def two_column_table(column_dict, header=['Default', 'Value']):
     """prints a table with two columns where the first column are the
     attributes, and the second column are the values.
 
-    :param column_dic: the dictionary to be printed
+    :param column_dict: the dictionary to be printed
     """
+    # BUG: argument is mutable
     if not header:
         header = ['Default', 'Value']
     x = PrettyTable()
@@ -181,7 +182,7 @@ def one_column_table(column, header='Value'):
     """prints a table with two columns where the first column are the
     attributes, and the second column are the values.
 
-    :param column_dic: the dictionary to be printed
+    :param column: the dictionary to be printed
     """
     x = PrettyTable()
     x.add_column(header, column)
@@ -283,7 +284,7 @@ def dict_key_list_table_printer(d, indexed=False):
             index_list = hostlist.expand_hostlist("[1-{0}]".format(str(l)))
         x.add_column("index", index_list)
         
-    for k,v in d.iteritems():
+    for k, v in d.iteritems():
         v0 = v + [" "]*(l - len(v))
         x.add_column(k, v0)
     x.align = "l"

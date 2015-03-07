@@ -13,12 +13,14 @@ def config_file(filename):
     """
     return __config_dir__ + filename
 
+
 def config_file_raw(filename):
     """
     The location of the config file: ~/.cloudmesh/filename. ~ will NOT be expanded
     :param filename: the filename
     """
     return __config_dir_prefix__ + filename
+
 
 def config_file_prefix():
     """

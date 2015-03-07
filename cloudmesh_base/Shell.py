@@ -1,16 +1,14 @@
 import os
-import shutil
-
 import sh
 
 
+# noinspection PyUnresolvedReferences
 class Shell(object):
 
     #    @classmethod
     #    def ls(cls, arguments=None):
     #        return cls._execute(sh.ls, arguments)
 
-    
     @classmethod
     def _execute(cls, f, *args, **kwargs):
         """
@@ -19,14 +17,13 @@ class Shell(object):
         :param f: the function to be executed
         """
         args = args or []
-        kws  = kwargs or {}
+        kws = kwargs or {}
         return f(*args, **kws)
 #        args = list(*arguments)
 #        if len(args) == 0:
 #            return f().rstrip('\n')
 #       else:
 #           return f(args).rstrip('\n')
-
 
     @classmethod
     def cat(cls, *args, **kwargs):
@@ -36,7 +33,6 @@ class Shell(object):
         """
         return cls._execute(sh.cat, *args, **kwargs)
 
-                
     @classmethod
     def git(cls, *args, **kwargs):
         """
@@ -46,7 +42,7 @@ class Shell(object):
         return cls._execute(sh.git, *args, **kwargs)
         
     @classmethod
-    def VBoxManage	(cls, *args, **kwargs):
+    def VBoxManage(cls, *args, **kwargs):
         """
         the virtualbox management command
         :param cls:
@@ -54,7 +50,7 @@ class Shell(object):
         return cls._execute(sh.VBoxManage, *args, **kwargs)
 
     @classmethod
-    def blockdiag	(cls, *args, **kwargs):
+    def blockdiag(cls, *args, **kwargs):
         """
         the blockdiag command
         :param cls:
@@ -176,8 +172,8 @@ class Shell(object):
         if os.path.isdir(newdir):
             pass
         elif os.path.isfile(newdir):
-            raise OSError("a file with the same name as the desired " \
-                        "dir, '%s', already exists." % newdir)
+            raise OSError("a file with the same name as the desired "
+                          "dir, '%s', already exists." % newdir)
         else:
             head, tail = os.path.split(newdir)
             if head and not os.path.isdir(head):

@@ -50,9 +50,8 @@ class GitInfo(object):
         :param output: if "dict" is specified a dict will be returned
         :rtype: dict or array of e-mails dependent on output
         """
-        if output is None:
-            format_string = "'%aN' <%cE>"
-        elif output == 'dict':
+        format_string = "'%aN' <%cE>"
+        if output == 'dict':
             format_string = "%aN\t%cE"
         result = Shell.sort(
             Shell.git("log",
@@ -114,9 +113,9 @@ class GitInfo(object):
         """
         sums = [0, 0, 0]
         for line in Shell.git("log", "--all", "--stat", '--author={0}'.format(email),
-                            _tty_in=True,
-                            _tty_out=False,
-                            _iter=True):
+                              _tty_in=True,
+                              _tty_out=False,
+                              _iter=True):
             line = line[:-1]
 
             if " files changed" in line:

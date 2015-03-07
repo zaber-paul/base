@@ -20,7 +20,7 @@ def ascii_menu(title=None, menu_list=None):
         print(title)
         print(len(title) * "=")
         print()
-        for (label, function) in menu_list:
+        for label, function in menu_list:
             print("    {0} - {1}".format(index, label))
             index += 1
         print("    q - quit")
