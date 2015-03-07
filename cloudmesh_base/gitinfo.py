@@ -42,42 +42,46 @@ class GitInfo(object):
         """
         return str(Shell.git("describe", "--tags"))[:-1]
 
-    def emails(self, format_arg=None):
+    def emails(self, output=None):
         """
         returns the emails of the authors either as a text or as a dict. The
         format is specified as an argument.
 
-        :param format_arg: if "dict" is specified a dict will be returned
-        :rtype: dict or array of e-mails dependent on format_arg
+        :param output: if "dict" is specified a dict will be returned
+        :rtype: dict or array of e-mails dependent on output
         """
-        if format_arg is None:
+        if output is None:
             format_string = "'%aN' <%cE>"
-        elif format_arg == 'dict':
+        elif output == 'dict':
             format_string = "%aN\t%cE"
-        result = Shell.sort(Shell.git("log", 
-            "--all", "--format=" + format_string,
-            _tty_in=True, _tty_out=False, _piped=True), "-u")
+        result = Shell.sort(
+            Shell.git("log",
+                      "--all",
+                      "--format=" + format_string,
+                      _tty_in=True,
+                      _tty_out=False,
+                      _piped=True), "-u")
 
-        if format_arg is None:
+        if output is None:
             return result
-        elif format_arg == "dict":
+        elif output == "dict":
             result = iter(result.replace("\n", "\t").split("\t")[:-1])
             emails = dict(zip(result, result))
             for name in emails:
                 emails[name] = emails[name]
             return emails
 
-    def authors(self, format_arg=None):
+    def authors(self, output=None):
         """
         returns the authors of the authors either as a text or as a dict. The
         format is specified as an argument.
 
-        :param format_arg: if "dict" is specified a dict will be returned
+        :param output: if "dict" is specified a dict will be returned
         """
         result = Shell.git("shortlog", "-s", "-n", _tty_in=True, _tty_out=False)
-        if format_arg is None:
+        if output is None:
             return result
-        elif format_arg == "dict":
+        elif output == "dict":
             list_string = result.replace("\n", "\t").split("\t")[:-1]
             it = iter(list_string[::-1])
             authors = dict(zip(it, it))
