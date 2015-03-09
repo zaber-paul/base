@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.3.1"
+version = "2.3.2"
 
 requirements = [
         'future',             
@@ -20,7 +20,7 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 import os
 from cloudmesh_base.util import banner
-
+from cloudmesh_base.setup import auto_create_version
 
 #
 # AUTOCREATE REQUIREMENTS FROM ARRAY
@@ -45,17 +45,7 @@ home = os.path.expanduser("~")
 # MANAGE VERSION NUMBER
 #
 
-
-def auto_create_version():
-    with open("cloudmesh_base/__init__.py", "r") as f:
-        content = f.read()
-    
-    if content != 'version = "{0}"'.format(version):
-        banner("Updating version to {0}".format(version))
-        with open("cloudmesh_base/__init__.py", "w") as text_file:
-            text_file.write('version = "%s"' % version)
-
-auto_create_version()
+auto_create_version("cloudmesh_base", version)
 
 # banner("Install Cloudmesh Base Requirements")
 # os.system("pip install -r requirements.txt")
@@ -70,7 +60,7 @@ class CreateRequirementsFile(install):
 class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
-        auto_create_version()
+        auto_create_version("cloudmesh_base", version)
         os.system("Make clean Install")
         os.system("python setup.py install")                
         banner("Build Distribution")
