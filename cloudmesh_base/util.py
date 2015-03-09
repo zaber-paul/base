@@ -106,3 +106,13 @@ def backup_name(filename):
         backup = "{0}.bak.{1}".format(location, n)
         found = os.path.isfile(backup)
     return backup
+
+def auto_create_version(class_name, version):
+    filename = "{0}/__init__.py".format(class_name)
+    with open(filename, "r") as f:
+        content = f.read()
+
+    if content != 'version = "{0}"'.format(version):
+        banner("Updating version to {0}".format(version))
+        with open(filename, "w") as text_file:
+            text_file.write(u'version = "{0:s}"'.format(version))

@@ -20,7 +20,7 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 import os
 from cloudmesh_base.util import banner
-from cloudmesh_base.setup import auto_create_version
+from cloudmesh_base.util import auto_create_version
 
 #
 # AUTOCREATE REQUIREMENTS FROM ARRAY
