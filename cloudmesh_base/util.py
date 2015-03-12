@@ -1,6 +1,8 @@
-import os
 from string import Template
 import inspect
+import glob
+import os
+import shutil
 
 
 def grep(pattern, filename):
@@ -116,3 +118,34 @@ def auto_create_version(class_name, version):
         banner("Updating version to {0}".format(version))
         with open(filename, "w") as text_file:
             text_file.write(u'version = "{0:s}"'.format(version))
+
+
+def auto_create_requirements(requirements):
+    """
+    creates a requirement.txt file form the requirements in the list. If the file exists, it get changed only if the
+    requirements in the list are different from the existing file
+
+    :param requirements: the requirements in a list
+    """
+    banner("Creating requirements.txt file")
+    with open("requirements.txt", "r") as f:
+        file_content = f.read()
+
+    setup_requirements = '\n'.join(requirements)
+
+    if setup_requirements != file_content:
+        with open("requirements.txt", "w") as text_file:
+            text_file.write(setup_requirements)
+
+def copy_files(files_glob, source_dir, dest_dir):
+    """
+
+    :param files_glob: *.yaml
+    :param source_dir: source directiry
+    :param dest_dir: destination directory
+    :return:
+    """
+    files = glob.iglob(os.path.join(source_dir, files_glob))
+    for file in files:
+        if os.path.isfile(file):
+            shutil.copy2(file, dest_dir)
