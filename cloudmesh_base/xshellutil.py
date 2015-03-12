@@ -3,7 +3,7 @@ import glob
 import os.path
 import shutil
 from cloudmesh_base.Shell import Shell
-from cloudmesh_pbs.api.ssh_config import ssh_config
+from cloudmesh_base.ssh_config import ssh_config
 
 def xcopy(src_dir, dest_dir, pattern, force=True):
     """copies all files matching a glob pattern such as *.yaml from
