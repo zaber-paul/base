@@ -128,9 +128,12 @@ def auto_create_requirements(requirements):
     :param requirements: the requirements in a list
     """
     banner("Creating requirements.txt file")
-    with open("requirements.txt", "r") as f:
-        file_content = f.read()
-
+    try:
+        with open("requirements.txt", "r") as f:
+            file_content = f.read()
+    except:
+            file_content = ""
+            
     setup_requirements = '\n'.join(requirements)
 
     if setup_requirements != file_content:
