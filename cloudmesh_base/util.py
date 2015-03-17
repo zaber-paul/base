@@ -3,6 +3,8 @@ import inspect
 import glob
 import os
 import shutil
+import collections
+
 
 
 def grep(pattern, filename):
@@ -27,6 +29,15 @@ def path_expand(text):
     result = os.path.expanduser(result)
     return result
 
+def convert_from_unicode(data):
+    if isinstance(data, basestring):
+        return str(data)
+    elif isinstance(data, collections.Mapping):
+        return dict(map(convert_from_unicode, data.iteritems()))
+    elif isinstance(data, collections.Iterable):
+        return type(data)(map(convert_from_unicode, data))
+    else:
+        return data
 
 def yn_choice(message, default='y', tries=None):
     """asks for a yes/no question.

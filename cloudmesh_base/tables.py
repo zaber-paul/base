@@ -7,8 +7,40 @@ import json
 import yaml
 import hostlist
 
+from cloudmesh_base.util import convert_from_unicode
 
-def dict_printer(d, order=None, header=None):
+def dict_printer(d, order=None, header=None, output="table"):
+    print ("PPP", output)
+    if output == "table":
+        return dict_table_printer(d, order=order, header=header)
+    elif output == "csv":
+        return dict_csv_printer(d, order=order, header=header)
+    elif output == "dict":
+        return json.dumps(d, indent=4)
+    elif output == "yaml":
+        return yaml.dump(convert_from_unicode(d), default_flow_style=False)
+    else:
+        return "UNKOWN FORMAT"
+
+def dict_csv_printer(d, order=None, header=None, output="table"):
+
+    table = ""
+    content = []
+    for attribute in order:
+        content.append(attribute)
+    table = table + ",".join(content) + "\n"
+
+    for job in d:
+        content = []
+        for attribute in order:
+            try:
+                content.append(d[job][attribute])
+            except:
+                content.append("None")
+        table = table + ",".join(content) + "\n"
+    return table
+
+def dict_table_printer(d, order=None, header=None):
     """prints a pretty table from an dict of dicts
     :param d: A a dict with dicts of the same type.
                   Each key will be a column
