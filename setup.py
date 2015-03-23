@@ -12,6 +12,8 @@ requirements = [
         'python-hostlist',
         'prettytable',
         'pytimeparse',
+        'pymongo',
+        'mongoengine',
     ]
 
 # from distutils.core import setup
@@ -97,7 +99,34 @@ class InstallAll(install):
         banner("Install Cloudmesh Base")        
         install.run(self)
 
-                
+
+class SetupYaml(install):
+    """Upload the package to pypi."""
+
+    def run(self):
+        banner("Setup the cloudmesh_database.yaml file")
+
+        database_yaml = path_expand("~/.cloudmesh/cloudmesh_database.yaml")
+
+        if os.path.isfile(database_yaml):
+            print ("WARNING: the file {0} already exists".format(database_yaml))
+            print
+            print ("If you like to reinstall it, please remove the file")
+        else:
+            print ("Copy file:  {0} -> {1} ".format(path_expand("etc/cloudmesh_database.yaml"), database_yaml))
+            Shell.mkdir(path_expand("~/.cloudmesh"))
+
+            shutil.copy("etc/cloudmesh_database.yaml", path_expand("~/.cloudmesh/cloudmesh_database.yaml"))
+
+class CreateDoc(install):
+    """Install requirements and the package."""
+
+    def run(self):
+        banner("Create Documentation")
+        os.system("python setup.py install")
+        os.system("sphinx-apidoc -o docs/source cloudmesh_database cloudmesh_base")
+        os.system("cd docs; make -f Makefile html")
+
 setup(
     name='cloudmesh_base',
     version=version,
@@ -136,6 +165,8 @@ setup(
         'pypi': UploadToPypi,
         'pypiregister': RegisterWithPypi, 
         'create_requirements': CreateRequirementsFile,
+        'yaml': SetupYaml,
+        'doc': CreateDoc,
         },
 )
 
