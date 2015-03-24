@@ -6,7 +6,6 @@ import shutil
 import collections
 
 
-
 def grep(pattern, filename):
     """Very simple grep that returns the first matching line in a file.
     String matching only, does not do REs as currently implemented.
@@ -29,6 +28,7 @@ def path_expand(text):
     result = os.path.expanduser(result)
     return result
 
+
 def convert_from_unicode(data):
     if isinstance(data, basestring):
         return str(data)
@@ -38,6 +38,7 @@ def convert_from_unicode(data):
         return type(data)(map(convert_from_unicode, data))
     else:
         return data
+
 
 def yn_choice(message, default='y', tries=None):
     """asks for a yes/no question.
@@ -120,14 +121,15 @@ def backup_name(filename):
         found = os.path.isfile(backup)
     return backup
 
-def auto_create_version(class_name, version):
-    filename = "{0}/__init__.py".format(class_name)
-    with open(filename, "r") as f:
+
+def auto_create_version(class_name, version, filename="__init__.py"):
+    version_filename = "{0}/{1}".format(class_name, filename)
+    with open(version_filename, "r") as f:
         content = f.read()
 
     if content != 'version = "{0}"'.format(version):
         banner("Updating version to {0}".format(version))
-        with open(filename, "w") as text_file:
+        with open(version_filename, "w") as text_file:
             text_file.write(u'version = "{0:s}"'.format(version))
 
 
@@ -150,6 +152,7 @@ def auto_create_requirements(requirements):
     if setup_requirements != file_content:
         with open("requirements.txt", "w") as text_file:
             text_file.write(setup_requirements)
+
 
 def copy_files(files_glob, source_dir, dest_dir):
     """

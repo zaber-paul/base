@@ -5,6 +5,7 @@ import shutil
 from cloudmesh_base.Shell import Shell
 from cloudmesh_base.ssh_config import ssh_config
 
+
 def xcopy(src_dir, dest_dir, pattern, force=True):
     """copies all files matching a glob pattern such as *.yaml from
     the source to the destination directory if the file is not already
@@ -22,6 +23,7 @@ def xcopy(src_dir, dest_dir, pattern, force=True):
             print("Warning: {0} exists in {1}. "
                   "Ignoring copy.".format(file,
                                           os.path.join(os.path.split(_dest_dir)[-2:])))
+
 
 def xmkdir(host, path):
     try:

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-version = "2.4.4"
+version = "2.4.7"
 
 requirements = [
+        'pytz',
         'future',             
         'sh',
         'docopt',

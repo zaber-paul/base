@@ -9,6 +9,7 @@ import hostlist
 
 from cloudmesh_base.util import convert_from_unicode
 
+
 def dict_printer(d, order=None, header=None, output="table"):
     print ("PPP", output)
     if output == "table":
@@ -21,6 +22,7 @@ def dict_printer(d, order=None, header=None, output="table"):
         return yaml.dump(convert_from_unicode(d), default_flow_style=False)
     else:
         return "UNKOWN FORMAT"
+
 
 def dict_csv_printer(d, order=None, header=None, output="table"):
 
@@ -39,6 +41,7 @@ def dict_csv_printer(d, order=None, header=None, output="table"):
                 content.append("None")
         table = table + ",".join(content) + "\n"
     return table
+
 
 def dict_table_printer(d, order=None, header=None):
     """prints a pretty table from an dict of dicts
