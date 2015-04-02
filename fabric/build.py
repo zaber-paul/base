@@ -10,4 +10,4 @@ def sdist():
     """create the sdist"""
     fabric.state.output.stdout = True
     clean.all()
-    local("python setup.py sdist --format=bztar,zip")
+    local("python setup.py.in sdist --format=bztar,zip")

@@ -166,3 +166,22 @@ def copy_files(files_glob, source_dir, dest_dir):
     for file in files:
         if os.path.isfile(file):
             shutil.copy2(file, dest_dir)
+
+
+def dict_replace(content, replacements={}):
+    
+    for key in replacements:
+        content = content.replace("\{key\}".format(replacements[key]))
+
+    return content
+
+def readfile(filename):
+    with open(path_expand(filename), 'r') as f:
+        content = f.read()
+    return content
+
+def writefile(filename, content):
+    outfile = open(path_expand(filename), 'w')
+    outfile.write(content)
+    outfile.close()
+    

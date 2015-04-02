@@ -308,7 +308,20 @@ class Shell(object):
         :param cls:
         """
         return cls._execute(sh.mongod, *args, **kwargs)
-                                                                
+    
+    @classmethod
+    def which(cls, *args, **kwargs):
+        """
+        the which command
+        :param cls:
+        """
+        try:
+            path = cls._execute(sh.which, *args, **kwargs)
+        except:
+            path = None
+        return path
+    
+                                                                    
 if __name__ == "__main__":
     print Shell.ls("-1")
     print Shell.ls()
