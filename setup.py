@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.4.9"
+version = "2.5.0"
 
 requirements = [
         'future',
@@ -64,16 +64,16 @@ class UploadToPypi(install):
     def run(self):
         auto_create_version("cloudmesh_base", version)
         os.system("Make clean Install")
-        os.system("python setup.py.in install")
+        os.system("python setup.py install")
         banner("Build Distribution")
-        os.system("python setup.py.in sdist --format=bztar,zip upload")
+        os.system("python setup.py sdist --format=bztar,zip upload")
 
 
 class RegisterWithPypi(install):
     """Upload the package to pypi."""
     def run(self):
         banner("Register with Pypi")
-        os.system("python setup.py.in register")
+        os.system("python setup.py register")
 
         
 class InstallBase(install):
@@ -123,7 +123,7 @@ class CreateDoc(install):
 
     def run(self):
         banner("Create Documentation")
-        os.system("python setup.py.in install")
+        os.system("python setup.py install")
         os.system("sphinx-apidoc -o docs/source cloudmesh_database cloudmesh_base")
         os.system("cd docs; make -f Makefile html")
 
