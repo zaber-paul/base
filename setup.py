@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.0"
+version = "2.5.1"
 
 requirements = [
         'future',
