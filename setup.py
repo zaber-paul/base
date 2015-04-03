@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.1"
+version = "2.5.2"
 
 requirements = [
         'future',
@@ -23,6 +23,10 @@ from setuptools.command.install import install
 import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
+from cloudmesh_base.util import path_expand
+from cloudmesh_base.Shell import Shell
+import shutil
+
 
 #
 # AUTOCREATE REQUIREMENTS FROM ARRAY
