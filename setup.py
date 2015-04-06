@@ -1,20 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.2"
-
-requirements = [
-        'future',
-        'sh',
-        'docopt',
-        'pyaml',
-        'simplejson',
-        'nose',
-        'python-hostlist',
-        'prettytable',
-        'pytimeparse',
-        'pymongo',
-        'mongoengine',
-    ]
+version = "2.5.1"
 
 # from distutils.core import setup
 
@@ -24,24 +10,16 @@ import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
 from cloudmesh_base.util import path_expand
-from cloudmesh_base.Shell import Shell
 import shutil
 
 
-#
-# AUTOCREATE REQUIREMENTS FROM ARRAY
-#
-def auto_create_requirements():
-    banner("Creating requirements.txt file")
-    with open("requirements.txt", "r") as f:
-        file_content = f.read()
-        
-    setup_requirements = '\n'.join(requirements)
-    
-    if setup_requirements != file_content:
-        with open("requirements.txt", "w") as text_file:
-            text_file.write(setup_requirements)
+def parse_requirements(filename):
+    """ load requirements from a pip requirements file """
+    lineiter = (line.strip() for line in open(filename))
+    return [line for line in lineiter if line and not line.startswith("#")]
 
+
+requirements = parse_requirements('requirements.txt')
 
 banner("Installing Cloudmesh Base")
 
@@ -118,7 +96,7 @@ class SetupYaml(install):
             print ("If you like to reinstall it, please remove the file")
         else:
             print ("Copy file:  {0} -> {1} ".format(path_expand("etc/cloudmesh_database.yaml"), database_yaml))
-            Shell.mkdir(path_expand("~/.cloudmesh"))
+            os.makedirs(path_expand("~/.cloudmesh"))
 
             shutil.copy("etc/cloudmesh_database.yaml", path_expand("~/.cloudmesh/cloudmesh_database.yaml"))
 
