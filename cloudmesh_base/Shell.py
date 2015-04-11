@@ -321,6 +321,18 @@ class Shell(object):
             path = None
         return path
     
+    @classmethod
+    def grep(cls, *args, **kwargs):
+        """
+        the grep command
+        :param cls:
+        """
+        try:
+            path = cls._execute(sh.grep, *args, **kwargs)
+        except:
+            path = None
+        return path
+    
                                                                     
 if __name__ == "__main__":
     print Shell.ls("-1")
