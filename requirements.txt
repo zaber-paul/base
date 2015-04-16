@@ -7,5 +7,5 @@ nose
 python-hostlist
 prettytable
 pytimeparse
-pymongo
+pymongo==2.8
 mongoengine
