@@ -182,6 +182,8 @@ class ConfigDict(OrderedDict):
     A class to obtain an OrderedDict from a yaml file.
     """
 
+
+
     def _set_filename(self, filename):
         """
         Sets the filename to be used.

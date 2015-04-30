@@ -1,5 +1,6 @@
 from cloudmesh_base.util import path_expand
-
+from cloudmesh_base.Shell import Shell
+import os
 
 __config_dir_prefix__ = "~/.cloudmesh"
 
@@ -27,4 +28,9 @@ def config_file_prefix():
     The prefix of the configuration file location
     """
     return __config_dir_prefix__
+
+def config_dir_setup(filename):
+    path = os.path.dirname(filename)
+    if not os.path.isdir(path):
+        Shell.mkdir(path)
 
