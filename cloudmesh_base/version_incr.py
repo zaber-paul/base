@@ -91,7 +91,12 @@ class version_incr(object):
         Shell.git("push", "origin", "--tags")
 
 def main():
-    if sys.argv[2] == 'tag':
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+        kind = "release"
+        v = version_incr(filename, kind=kind)
+        v.incr()
+    elif sys.argv[2] == 'tag':
         filename = sys.argv[1]
         v = version_incr(filename)
         v.tag()
@@ -105,6 +110,10 @@ def main():
         print "           increments the version number"
         print "usage: cm-incr-version filename tag"
         print "           tags the version in github"
+
+
+
+
 
 
 
