@@ -26,6 +26,14 @@ class Shell(object):
 #           return f(args).rstrip('\n')
 
     @classmethod
+    def bash(cls, *args, **kwargs):
+        """
+        the bash command
+        :param cls:
+        """
+        return cls._execute(sh.bash, *args, **kwargs)
+
+    @classmethod
     def cat(cls, *args, **kwargs):
         """
         the cat command

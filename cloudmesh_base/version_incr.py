@@ -1,8 +1,10 @@
 from cloudmesh_base.Shell import Shell
+from cloudmesh_base.util import banner
 
 import fileinput
 import sys
 import shutil
+import os
 
 class version_incr(object):
 
@@ -26,27 +28,85 @@ class version_incr(object):
         self.version = None
         self.position = self.which(kind)
 
+    def find(self):
+        old_version = "0.0.0"
+        f_in = open(self.filename, "r")
+        for line in f_in:
+            if line.startswith('version ='):
+                v = line.split("=")[1].strip()
+                v = v.replace('"', '')
+                old_version = v
+                self.version = v.split('.')
+                break
+        return old_version
+
+
     def incr(self):
         """reads the version number"""
-        print self.filename
+        print "Changing version in file", self.filename
         f_in = open(self.filename, "r")
         f_out = open("tmp", "w")
         for line in f_in:
             if line.startswith('version ='):
                 v = line.split("=")[1].strip()
                 v = v.replace('"', '')
+                old_version = v
                 self.version = v.split('.')
                 self.version[self.position] = str(int(self.version[self.position]) + 1)
-                f_out.write('version = "{:}"\n'.format(".".join(self.version)))
+                new_version = ".".join(self.version)
+                f_out.write('version = "{:}"\n'.format(new_version))
             else:
                 f_out.write(line)
         f_in.close()
         f_out.close()
         shutil.move("tmp", self.filename)
 
+        print "Changed version from {:} to {:}".format(old_version, new_version)
+
+    def git_commit_needed(self):
+        content = Shell.git("status")
+        return ("Changes to be committed:" in content) or \
+               ('Your branch is ahead' in content)
+
+
+    def tag(self):
+        v = self.find()
+        banner("v")
         print v
-        print self.version
+
+        #v = ".".join(self.version)
+        os.system("python setup.py install")
+
+        if self.git_commit_needed():
+            banner("git commit")
+            command = "git commit -m 'version {:}' {:}".format(v,self.filename)
+            print "CCC", command
+            os.system(command)
+            os.system("git push")
+
+        else:
+            print "git commit not needed"
+
+        Shell.git("tag", "-a", v, "-m", "version {:}".format(v))
+        Shell.git("push", "origin", "--tags")
+
+def main():
+    if sys.argv[2] == 'tag':
+        filename = sys.argv[1]
+        v = version_incr(filename)
+        v.tag()
+    elif len(sys.argv) == 3:
+        filename = sys.argv[1]
+        kind = sys.argv[2]
+        v = version_incr(filename, kind=kind)
+        v.incr()
+    else:
+        print "usage: cm-incr-version filename (release|minor|major)"
+        print "           increments the version number"
+        print "usage: cm-incr-version filename tag"
+        print "           tags the version in github"
+
+
 
 if __name__ == "__main__":
-    v = version_incr("test.txt", kind="release")
-    v.incr()
+    main()

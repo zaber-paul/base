@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.10"
+version = "2.5.12"
 
 # from distutils.core import setup
 
