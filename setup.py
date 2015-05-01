@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.9"
+version = "2.5.10"
 
 # from distutils.core import setup
 
@@ -138,6 +138,11 @@ setup(
         'Framework :: Flask',
         'Environment :: OpenStack',
     ],
+    entry_points={
+        'console_scripts': [
+            'cm-incr-version = cloudmesh_base.version_incr:main',
+        ],
+    },
     install_requires=requirements,
     packages=find_packages(),
     cmdclass={
