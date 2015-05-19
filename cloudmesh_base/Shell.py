@@ -1,6 +1,6 @@
 import os
 import sh
-
+from cloudmesh_base.util import path_expand
 
 # noinspection PyUnresolvedReferences
 class Shell(object):
@@ -186,17 +186,18 @@ class Shell(object):
         - parent directory(ies) does not exist, make them as well
         """
         """http://code.activestate.com/recipes/82465-a-friendly-mkdir/"""
-        if os.path.isdir(newdir):
+        _newdir = path_expand(newdir)
+        if os.path.isdir(_newdir):
             pass
-        elif os.path.isfile(newdir):
+        elif os.path.isfile(_newdir):
             raise OSError("a file with the same name as the desired "
-                          "dir, '%s', already exists." % newdir)
+                          "dir, '%s', already exists." % _newdir)
         else:
-            head, tail = os.path.split(newdir)
+            head, tail = os.path.split(_newdir)
             if head and not os.path.isdir(head):
                 os.mkdir(head)
             if tail:
-                os.mkdir(newdir)
+                os.mkdir(_newdir)
 
     @classmethod
     def mongoimport(cls, *args, **kwargs):
