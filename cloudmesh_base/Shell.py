@@ -31,7 +31,7 @@ class Shell(object):
         the bash command
         :param cls:
         """
-        return cls._execute(sh.bash, *args, **kwargs)
+        return cls._execute(sh.ps, *args, **kwargs)
 
     @classmethod
     def bash(cls, *args, **kwargs):
