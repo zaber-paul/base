@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.17"
+version = "2.5.18"
 
 # from distutils.core import setup
 

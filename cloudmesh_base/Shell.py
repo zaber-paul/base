@@ -26,13 +26,12 @@ class Shell(object):
 #           return f(args).rstrip('\n')
 
     @classmethod
-    def mongod(cls, *args, **kwargs):
+    def ps(cls, *args, **kwargs):
         """
         the bash command
         :param cls:
         """
-        return cls._execute(sh.mongod, *args, **kwargs)
-
+        return cls._execute(sh.bash, *args, **kwargs)
 
     @classmethod
     def bash(cls, *args, **kwargs):
