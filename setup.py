@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.6.0"
+version = "2.6.1"
 
 # from distutils.core import setup
 
@@ -39,28 +39,93 @@ class CreateRequirementsFile(install):
     """Create the requiremnets file."""
     def run(self):    
         auto_create_requirements()
+
+def os_execute(commands):
+    for command in commands.split("\n"):
+        command = command.strip()
+        print (command)
+        os.system(command)
         
-        
+class Make(object):
+
+    @classmethod
+    def github(cls):
+        commands = """
+            git commit -a
+            git push
+            """
+        os_execute(commands)
+    
+    @classmethod
+    def clean(cls):
+        commands = """
+            rm -rf docs/build
+            rm -rf build
+            rm -rf cloudmesh_base.egg-info
+            rm -rf dist
+            """
+        os_execute(commands)
+
+    @classmethod        
+    def doc(cls):
+        cls.install()
+        commands = """
+            sphinx-apidoc -o docs/source cloudmesh_base
+            cd docs; make -f Makefile html
+            """
+        os_execute(commands)    
+
+    @classmethod
+    def pypi(cls):
+        cls.clean()
+        cls.install()
+        commands = """
+            python setup.py bdist_wheel
+            python setup.py sdist --format=bztar,zip upload
+            """
+        os_execute(commands)    
+
+    @classmethod
+    def install(cls):
+        cls.clean()
+        auto_create_version("cloudmesh_base", version)
+        commands = """
+            python setup.py install
+            """
+        os_execute(commands)    
+
+    @classmethod
+    def install_requirements(cls):
+        for requirement in requirements:
+            os.system("pip install {:}".format(requirement))
+
+#
+# INSTALL
+#
+
+class CleanPackage(install):
+    def run(self):
+        Make.clean()
+
+            
 class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
-        auto_create_version("cloudmesh_base", version)
-        os.system("Make clean Install")
-        os.system("python shell_plugins.py install")
-        banner("Build Distribution")
-        os.system("python shell_plugins.py sdist --format=bztar,zip upload")
+        Make.pypi()
 
-
+        
 class RegisterWithPypi(install):
     """Upload the package to pypi."""
     def run(self):
         banner("Register with Pypi")
-        os.system("python shell_plugins.py register")
-
+        # os.system("python shell_plugins.py register")
+        print ("not implemented")
         
 class InstallBase(install):
     """Install the package."""
     def run(self):
+        banner("Requirements")
+        Make.install_requirements()
         banner("Install Cloudmesh Base")
         install.run(self)
 
@@ -104,10 +169,13 @@ class CreateDoc(install):
     """Install requirements and the package."""
 
     def run(self):
-        banner("Create Documentation")
-        os.system("python shell_plugins.py install")
-        os.system("sphinx-apidoc -o docs/source cloudmesh_database cloudmesh_base")
-        os.system("cd docs; make -f Makefile html")
+        Make.doc()
+
+class PushPackage(install):
+    """Install requirements and the package."""
+
+    def run(self):
+        Make.github()
 
 setup(
     name='cloudmesh_base',
@@ -154,6 +222,8 @@ setup(
         'create_requirements': CreateRequirementsFile,
         'yaml': SetupYaml,
         'doc': CreateDoc,
+        'clean': CleanPackage,
+        'push': PushPackage
         },
 )
 
