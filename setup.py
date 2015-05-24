@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.5.19"
+version = "2.6.0"
 
 # from distutils.core import setup
 
@@ -46,16 +46,16 @@ class UploadToPypi(install):
     def run(self):
         auto_create_version("cloudmesh_base", version)
         os.system("Make clean Install")
-        os.system("python setup.py install")
+        os.system("python shell_plugins.py install")
         banner("Build Distribution")
-        os.system("python setup.py sdist --format=bztar,zip upload")
+        os.system("python shell_plugins.py sdist --format=bztar,zip upload")
 
 
 class RegisterWithPypi(install):
     """Upload the package to pypi."""
     def run(self):
         banner("Register with Pypi")
-        os.system("python setup.py register")
+        os.system("python shell_plugins.py register")
 
         
 class InstallBase(install):
@@ -105,7 +105,7 @@ class CreateDoc(install):
 
     def run(self):
         banner("Create Documentation")
-        os.system("python setup.py install")
+        os.system("python shell_plugins.py install")
         os.system("sphinx-apidoc -o docs/source cloudmesh_database cloudmesh_base")
         os.system("cd docs; make -f Makefile html")
 

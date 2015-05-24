@@ -75,7 +75,7 @@ class version_incr(object):
         print v
 
         #v = ".".join(self.version)
-        os.system("python setup.py install")
+        os.system("python shell_plugins.py install")
 
         if self.git_commit_needed():
             banner("git commit")

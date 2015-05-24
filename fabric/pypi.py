@@ -8,10 +8,10 @@ __all__ = ['upload', 'register']
 def upload():
     """upload the dist to pypi"""
     build.sdist()
-    local("python setup.py.in sdist upload")
+    local("python shell_plugins.py.in sdist upload")
 
 
 @task
 def register():
     """register with pypi. Needs only to be done once."""
-    local("python setup.py.in register")
+    local("python shell_plugins.py.in register")

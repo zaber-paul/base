@@ -4,6 +4,8 @@ import glob
 import os
 import shutil
 import collections
+import pip
+import sys
 
 
 def grep(pattern, filename):
@@ -87,6 +89,7 @@ def banner(txt=None, c="#", debug=True):
             print "#", 70 * c
 
 
+# noinspection PyPep8Naming
 def HEADING(txt=None):
     """
     Prints a message to stdout with #### surrounding it. This is useful for
@@ -115,6 +118,7 @@ def backup_name(filename):
     location = path_expand(filename)
     n = 0
     found = True
+    backup = None
     while found:
         n += 1
         backup = "{0}.bak.{1}".format(location, n)
@@ -145,8 +149,8 @@ def auto_create_requirements(requirements):
         with open("requirements.txt", "r") as f:
             file_content = f.read()
     except:
-            file_content = ""
-            
+        file_content = ""
+
     setup_requirements = '\n'.join(requirements)
 
     if setup_requirements != file_content:
@@ -169,19 +173,52 @@ def copy_files(files_glob, source_dir, dest_dir):
 
 
 def dict_replace(content, replacements={}):
-    
     for key in replacements:
         content = content.replace("\{key\}".format(replacements[key]))
 
     return content
+
 
 def readfile(filename):
     with open(path_expand(filename), 'r') as f:
         content = f.read()
     return content
 
+
 def writefile(filename, content):
     outfile = open(path_expand(filename), 'w')
     outfile.write(content)
     outfile.close()
-    
+
+
+def get_python():
+    python_version = sys.version_info[:3]
+    v_string = [str(i) for i in python_version]
+    python_version_s = '.'.join(v_string)
+
+    pip_version = pip.__version__
+    return python_version_s, pip_version
+
+
+def check_python():
+    python_version = sys.version_info[:3]
+
+    v_string = [str(i) for i in python_version]
+
+    python_version_s = '.'.join(v_string)
+    if (python_version[0] == 2) and (python_version[1] >= 7) and (python_version[2] >= 9):
+
+        print("You are running a supported version of python: {:}".format(python_version_s))
+    else:
+        print("WARNING: You are running an unsupported version of python: {:}".format(python_version_s))
+        print("         We recommend you update your python")
+
+    pip_version = pip.__version__
+
+    if int(pip_version.split(".")[0]) >= 7:
+        print("You are running a supported version of pip: " + str(pip_version))
+    else:
+        print("WARNING: You are running an old version of pip: " + str(pip_version))
+        print("         We recommend you update your pip  with \n")
+        print("             pip install -U pip\n")
+
