@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.6.2"
+version = "2.6.3"
 
 # from distutils.core import setup
 
@@ -80,11 +80,22 @@ class Make(object):
         cls.clean()
         cls.install()
         commands = """
+            python setup.py install
             python setup.py bdist_wheel
             python setup.py sdist --format=bztar,zip upload
             """
         os_execute(commands)    
 
+    @classmethod
+    def pypitest(cls):
+        cls.clean()
+        cls.install()
+        commands = """
+            python setup.py bdist_wheel
+            python setup.py sdist --format=bztar,zip upload -r https://testpypi.python.org/pypi
+            """
+        os_execute(commands)    
+        
     @classmethod
     def install(cls):
         cls.clean()
@@ -112,6 +123,11 @@ class UploadToPypi(install):
     """Upload the package to pypi."""
     def run(self):
         Make.pypi()
+
+class UploadToPypitest(install):
+    """Upload the package to pypi."""
+    def run(self):
+        Make.pypitest()
 
         
 class RegisterWithPypi(install):
@@ -218,6 +234,7 @@ setup(
         'requirements': InstallRequirements,
         'all': InstallAll,
         'pypi': UploadToPypi,
+        'pypitest': UploadToPypitest,        
         'pypiregister': RegisterWithPypi, 
         'create_requirements': CreateRequirementsFile,
         'yaml': SetupYaml,
