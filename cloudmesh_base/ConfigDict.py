@@ -204,7 +204,7 @@ class ConfigDict(OrderedDict):
             log.error("filename not specified")
             # sys.exit()
 
-        if not os.path.isfile(self['location']:
+        if os.path.isfile(self['location']):
             self.load(self['location'])
 
         #print ("ATTRIBUTE", attribute)
@@ -222,6 +222,8 @@ class ConfigDict(OrderedDict):
         and prefix.
         """
         for v in ["filename", "location", "prefix"]:
+            if "meta" not in self:
+                self["meta"] = {}
             self["meta"][v] = self[v]
             del self[v]
 
@@ -244,7 +246,7 @@ class ConfigDict(OrderedDict):
 
         self._set_filename(filename)
 
-        if not os.path.isfile(filename)
+        if os.path.isfile(filename):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
             self.update(d)
