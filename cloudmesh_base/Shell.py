@@ -26,6 +26,14 @@ class Shell(object):
 #           return f(args).rstrip('\n')
 
     @classmethod
+    def curl(cls, *args, **kwargs):
+        """
+        the bash command
+        :param cls:
+        """
+        return cls._execute(sh.curl, *args, **kwargs)
+
+    @classmethod
     def ps(cls, *args, **kwargs):
         """
         the bash command

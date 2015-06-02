@@ -96,7 +96,7 @@ def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
 # ordered_dump(data, Dumper=yaml.SafeDumper)
 
 
-def read_yaml_config(filename, check=True, osreplace=True):
+def read_yaml_config(filename, check=True, osreplace=True, exit=True):
     """
     reads in a yaml file from the specified filename. If check is set to true
     the code will fail if the file does not exist. However if it is set to
@@ -148,7 +148,8 @@ def read_yaml_config(filename, check=True, osreplace=True):
 
     else:
         log.error("The file {0} does not exist.".format(filename))
-        # sys.exit()
+        if exit:
+            sys.exit()
 
     return None
 
@@ -182,8 +183,6 @@ class ConfigDict(OrderedDict):
     A class to obtain an OrderedDict from a yaml file.
     """
 
-
-
     def _set_filename(self, filename):
         """
         Sets the filename to be used.
@@ -205,8 +204,10 @@ class ConfigDict(OrderedDict):
             log.error("filename not specified")
             # sys.exit()
 
-        self.load(self['location'])
+        if not os.path.isfile(self['location']:
+            self.load(self['location'])
 
+        #print ("ATTRIBUTE", attribute)
         for attribute in ['prefix']:
             if attribute in kwargs:
                 self[attribute] = kwargs[attribute]
@@ -239,10 +240,16 @@ class ConfigDict(OrderedDict):
 
         :param filename: the name of the yaml file
         """
+        print ("LOAD")
+
         self._set_filename(filename)
-        # d = OrderedDict(read_yaml_config(self['location'], check=True))
-        d = read_yaml_config(self['location'], check=True)
-        self.update(d)
+
+        if not os.path.isfile(filename)
+            # d = OrderedDict(read_yaml_config(self['location'], check=True))
+            d = read_yaml_config(self['location'], check=True)
+            self.update(d)
+        else:
+            print("Error while reading and updating the configuration file {:}".format(filename))
 
     def make_a_copy(self, location=None):
         """
