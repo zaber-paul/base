@@ -248,8 +248,8 @@ class ConfigDict(OrderedDict):
         if os.path.isfile(self['location']):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
-            print ("LLLL", self['location'])
-            print ("DDDD", d)            
+            # print ("LLLL", self['location'])
+            # print ("DDDD", d)            
             try:
                 self.update(d)
             except:
