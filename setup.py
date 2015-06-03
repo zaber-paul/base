@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "2.6.3"
+version = "2.6.4"
 
 # from distutils.core import setup
 
@@ -80,7 +80,6 @@ class Make(object):
         cls.clean()
         cls.install()
         commands = """
-            python setup.py install
             python setup.py bdist_wheel
             python setup.py sdist --format=bztar,zip upload
             """

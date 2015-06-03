@@ -204,7 +204,7 @@ class ConfigDict(OrderedDict):
             log.error("filename not specified")
             # sys.exit()
 
-        if not os.path.isfile(self['location']:
+        if os.path.isfile(self['location']):
             self.load(self['location'])
 
         #print ("ATTRIBUTE", attribute)
@@ -240,14 +240,17 @@ class ConfigDict(OrderedDict):
 
         :param filename: the name of the yaml file
         """
-        print ("LOAD")
 
         self._set_filename(filename)
-
-        if not os.path.isfile(filename)
+        
+        if os.path.isfile(filename):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
-            self.update(d)
+            try:
+                self.update(d)
+            except:
+                print ("ERROR: can not find", self["location"])
+                sys.exit()
         else:
             print("Error while reading and updating the configuration file {:}".format(filename))
 
