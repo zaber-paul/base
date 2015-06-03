@@ -245,9 +245,11 @@ class ConfigDict(OrderedDict):
 
         self._set_filename(filename)
 
-        if os.path.isfile(filename):
+        if os.path.isfile(self['location']):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
+            print ("LLLL", self['location'])
+            print ("DDDD", d)            
             try:
                 self.update(d)
             except:
