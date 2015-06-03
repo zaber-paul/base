@@ -222,6 +222,8 @@ class ConfigDict(OrderedDict):
         and prefix.
         """
         for v in ["filename", "location", "prefix"]:
+            if "meta" not in self:
+                self["meta"] = {}
             self["meta"][v] = self[v]
             del self[v]
 
@@ -242,7 +244,7 @@ class ConfigDict(OrderedDict):
         """
 
         self._set_filename(filename)
-        
+
         if os.path.isfile(filename):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)

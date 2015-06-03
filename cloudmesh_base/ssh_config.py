@@ -33,8 +33,11 @@ class ssh_config(object):
                     host = value
                     hosts[host] = {'host': host}
                 else:
-                    hosts[host][attribute] = value
-                    pass
+                    # In case of special configuratin lines, such as port forwarding,
+                    # there would be no 'Host india' line.
+                    if host in hosts:
+                        hosts[host][attribute] = value
+                    # pass
         self.hosts = hosts
 
     def list(self):
