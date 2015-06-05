@@ -1,5 +1,5 @@
 import os
-from bloudmesh_base.Shell import Shell
+from cloudmesh_base.Shell import Shell
 import json
 
 
