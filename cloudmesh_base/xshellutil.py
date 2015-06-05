@@ -2,7 +2,6 @@ from __future__ import print_function
 import glob
 import os.path
 import shutil
-from cloudmesh_base.Shell import Shell
 from cloudmesh_base.ssh_config import ssh_config
 
 

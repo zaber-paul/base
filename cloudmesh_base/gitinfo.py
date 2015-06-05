@@ -53,21 +53,18 @@ class GitInfo(object):
         format_string = "'%aN' <%cE>"
         if output == 'dict':
             format_string = "%aN\t%cE"
-        result = Shell.sort(
-            Shell.git("log",
+
+        result = sorted(set(Shell.git("log",
                       "--all",
-                      "--format=" + format_string,
-                      _tty_in=True,
-                      _tty_out=False,
-                      _piped=True), "-u")
+                      "--format=" + format_string).split("\n")))
 
         if output is None:
             return result
         elif output == "dict":
-            result = iter(result.replace("\n", "\t").split("\t")[:-1])
-            emails = dict(zip(result, result))
-            for name in emails:
-                emails[name] = emails[name]
+            emails = {}
+            for l in result:
+                (name, email) = l.split("\t")
+                emails[name] = email
             return emails
 
     def authors(self, output=None):
@@ -77,15 +74,15 @@ class GitInfo(object):
 
         :param output: if "dict" is specified a dict will be returned
         """
-        result = Shell.git("shortlog", "-s", "-n", _tty_in=True, _tty_out=False)
+        result = Shell.git("shortlog", "-s", "-n")
         if output is None:
             return result
         elif output == "dict":
-            list_string = result.replace("\n", "\t").split("\t")[:-1]
-            it = iter(list_string[::-1])
-            authors = dict(zip(it, it))
-            for name in authors:
-                authors[name] = int(authors[name])
+            authors = {}
+            for line in result.split("\n"):
+                l = " ".join(line.split()).strip()
+                (number, name) = l.split(" ", 1)
+                authors[name] = int(number)
             return authors
 
     def info(self):
@@ -111,14 +108,11 @@ class GitInfo(object):
         :param email: name of the author
         :rtype: a dict with the statistics
         """
+        result = Shell.git("log", "--all", "--stat", '--author={0}'.format(email)).split("\n")
         sums = [0, 0, 0]
-        for line in Shell.git("log", "--all", "--stat", '--author={0}'.format(email),
-                              _tty_in=True,
-                              _tty_out=False,
-                              _iter=True):
-            line = line[:-1]
-
+        for line in result:
             if " files changed" in line:
+                line = line.strip()
                 line = line.replace(" insertions(+)", "")
                 line = line.replace(" insertion(+)", "")
                 line = line.replace(" deletion(-)", "")
@@ -166,6 +160,10 @@ class GitInfo(object):
         return stats
 
 if __name__ == "__main__":
+
+    print (Shell.git("shortlog", "-n", "-s"))
+
+
     gitinfo = GitInfo()
 
     # print gitinfo.version()
