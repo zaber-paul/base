@@ -89,8 +89,6 @@ class Shell(object):
     @classmethod
     def ls(cls, *args): return cls.execute('ls',args)
     @classmethod
-    def mkdir(cls, newdir): return cls.execute('mkdir',args)
-    @classmethod
     def mongoimport(cls, *args): return cls.execute('mongoimport',args)
     @classmethod
     def mysql(cls, *args): return cls.execute('mysql',args)
@@ -127,6 +125,21 @@ class Shell(object):
     @classmethod
     def grep(cls, *args): return cls.execute('grep',args)
 
+    @classmethod
+    def remove_line_with(cls, lines, what):
+        result = []
+        for line in lines:
+            if what not in line:
+                result = result + line
+        return result
+
+    @classmethod
+    def find_lines_with(cls, lines, what):
+        result = []
+        for line in lines:
+            if what in line:
+                result = result + line
+        return result
 
     def __init__(cls):
         if cls.operating_system() == "windows":
