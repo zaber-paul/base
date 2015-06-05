@@ -14,7 +14,6 @@ pymongo==2.8
 python-hostlist==1.14
 pytimeparse==1.1.4
 pyyaml==3.11              # via pyaml
-sh==1.11
 simplejson==3.7.3
 
 # The following packages are commented out because they are
