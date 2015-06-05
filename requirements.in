@@ -1,6 +1,5 @@
 pip
 future
-sh
 docopt
 pyaml
 simplejson
