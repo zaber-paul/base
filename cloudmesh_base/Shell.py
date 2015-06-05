@@ -13,6 +13,7 @@ import glob
 import json
 import platform
 import os
+from cloudmesh_base.util import path_expand
 
 class Shell(object):
 
