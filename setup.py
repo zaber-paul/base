@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = "3.0.0"
+version = "3.0.1"
 
 # from distutils.core import setup
 
@@ -29,7 +29,7 @@ home = os.path.expanduser("~")
 # MANAGE VERSION NUMBER
 #
 
-auto_create_version("cloudmesh_base", version)
+auto_create_version("cloudmesh_base", version, "version.py")
 
 # banner("Install Cloudmesh Base Requirements")
 # os.system("pip install -r requirements.txt")

@@ -131,7 +131,7 @@ class Shell(object):
         result = []
         for line in lines:
             if what not in line:
-                result = result + line
+                result = result + [line]
         return result
 
     @classmethod
@@ -139,7 +139,7 @@ class Shell(object):
         result = []
         for line in lines:
             if what in line:
-                result = result + line
+                result = result + [line]
         return result
 
     def __init__(cls):
@@ -264,7 +264,7 @@ class Shell(object):
         else:
             print "ERROR: Wrong parameter type", type(arguments)
 
-        result = subprocess.check_output(os_command).rstrip()
+        result = subprocess.check_output(os_command, stderr=subprocess.STDOUT).rstrip()
 
         return result
 
