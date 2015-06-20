@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
+# Changes:
+# * June 2015, Gregor von Laszewski, using new style raise of exceptions
+# * June 2015, We assume we can redictibute it under LGPL license, we contacted the authors
+#              but have not yet heard back from them. We asked if we can distribute under
+#              apache license.
+# * June 2015  added class wrapper Parameter
+#
 # Hostlist library
 #
 # Copyright (C) 2008 Kent Engström <kent@nsc.liu.se>,
@@ -13,7 +20,6 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-# Note: Program is distributed under LPGL license, Gregor von Laszewski
 #
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -48,6 +54,14 @@ class BadHostlist(Exception): pass
 MAX_SIZE = 100000
 
 # Hostlist expansion
+
+class Parameter(object):
+
+    @classmethod
+    def expand(cls, parameter, allow_duplicates=False, sort=False):
+        return expand_hostlist(parameter, allow_duplicates=False, sort=False)
+
+
 
 def expand_hostlist(hostlist, allow_duplicates=False, sort=False):
     """Expand a hostlist expression string to a Python list.
