@@ -125,6 +125,8 @@ class Shell(object):
     def mongod(cls, *args): return cls.execute('mongod',args)
     @classmethod
     def grep(cls, *args): return cls.execute('grep',args)
+    @classmethod
+    def dialog(cls, *args): return cls.execute('dialog',args)
 
     @classmethod
     def remove_line_with(cls, lines, what):
