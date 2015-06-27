@@ -1,1 +1,5 @@
-version = "3.0.0"
+import pbr.version
+
+__version__ = pbr.version.VersionInfo('python-novaclient').version_string()
+
+version = __version__

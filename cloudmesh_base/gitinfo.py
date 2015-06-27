@@ -5,7 +5,7 @@ from pprint import pprint
 
 from cloudmesh_base.Shell import Shell
 from cloudmesh_base.util import banner
-
+import time
 
 class GitInfo(object):
 
@@ -34,6 +34,45 @@ class GitInfo(object):
     def __init__(self):
         """init method"""
         pass
+
+
+    @staticmethod
+    def print_authors():
+        print(GitInfo.get_authors_by_date(header=True))
+
+    @staticmethod
+    def get_authors_by_date(header=None):
+        """lists the authors of a git repository sorted by date.
+
+        Example:
+
+            0001 (2015-02-25): Gregor von Laszewski (laszewski@gmail.com)
+            0002 (2015-04-14): Fugang Wang (kevinwangfg@gmail.com)
+
+        :rtype: str
+        """
+
+
+        # modified from https://github.com/jgehrcke/git-authors
+
+        result = ""
+        if header:
+            result = result + "Authors\n"
+            result = result + "=======\n\n"
+
+        r = Shell.git("log",
+                      "--encoding=utf-8",
+                      "--full-history",
+                      "--reverse",
+                      "--format=format:%at;%an;%ae").split("\n")
+        seen = set()
+        for line in r:
+            timestamp, name, email = line.strip().split(";")
+            if name not in seen:
+                seen.add(name)
+                day = time.strftime("%Y-%m-%d", time.gmtime(float(timestamp)))
+                result = result + "{:04d} ({:}): {:} ({:})\n".format(len(seen), day, name, email)
+        return result
 
     def version(self):
         """

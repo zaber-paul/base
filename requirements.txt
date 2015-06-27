@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+setuptools>=18.0.1
+pbr
 docopt==0.6.2
 future==0.14.3
 mongoengine==0.9.0
@@ -14,7 +16,6 @@ pymongo==2.8
 pytimeparse==1.1.4
 pyyaml==3.11              # via pyaml
 simplejson==3.7.3
-
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
 # pip==7.0.1
