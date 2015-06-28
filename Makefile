@@ -16,7 +16,7 @@ requirements:
 clean:
 	find . -name "*~" -exec rm {} \;
 	find . -name "*.pyc" -exec rm {} \;
-	rm -rf build dist docs/build
+	rm -rf build dist docs/build .eggs
 	rm -rf *.egg-info
 	# cd docs; make clean
 	echo "clean done"
