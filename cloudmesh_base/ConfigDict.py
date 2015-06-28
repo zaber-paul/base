@@ -248,8 +248,9 @@ class ConfigDict(OrderedDict):
         if os.path.isfile(self['location']):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
-            # print ("LLLL", self['location'])
-            # print ("DDDD", d)            
+            with open(self['location']) as myfile:
+                document=myfile.read()
+            x = yaml.load(document)
             try:
                 self.update(d)
             except:

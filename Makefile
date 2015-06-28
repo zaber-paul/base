@@ -6,15 +6,24 @@ all: clean requirements
 view:
 	open docs/build/html/index.html
 
-clean:
-	rm -rf docs/build
-	rm -rf build
-	rm -rf cloudmesh_base.egg-info
-	rm -rf dist
-
 requirements:
 	pip install -r requirements-other.txt
 
+######################################################################
+# CLEANING
+######################################################################
+
+clean:
+	find . -name "*~" -exec rm {} \;
+	find . -name "*.pyc" -exec rm {} \;
+	rm -rf build dist docs/build
+	rm -rf *.egg-info
+	# cd docs; make clean
+	echo "clean done"
+
+######################################################################
+# TAGGING
+######################################################################
 
 tag:
 	cm-authors > AUTHORS
@@ -24,3 +33,4 @@ tag:
 rmtag:
 	git tag
 	@echo "rm Tag?"; read TAG; git tag -d $$TAG; git push origin :refs/tags/$$TAG
+

@@ -1,5 +1,3 @@
-import pbr.version
+import cloudmesh_base.version
 
-__version__ = pbr.version.VersionInfo('python-novaclient').version_string()
-
-version = __version__
+__version__ = version.version
