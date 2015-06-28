@@ -28,7 +28,7 @@ clean:
 tag:
 	cm-authors > AUTHORS
 	git tag
-	@echo "New Tag?"; read TAG; git tag $$TAG; git push origin --tags
+	@echo "New Tag?"; read TAG; git tag $$TAG; python setup.py install; git commit -m $$TAG --allow-empty; git push origin --tags
 
 rmtag:
 	git tag
