@@ -1,5 +1,9 @@
+from __future__ import print_function
+
 from cloudmesh_base.Shell import Shell
 import os
+import pip
+import sys
 
 def parse_requirements(filename):
     """ load requirements from a pip requirements file """
@@ -14,3 +18,15 @@ def os_execute(commands):
 
 def get_version_from_git():
     return Shell.git('tag').split("\n")[-1]
+
+
+def check_pip():
+    major = int(pip.__version__.split(".")[0])
+    if major < 7:
+        print("")
+        print("    ERROR: Pip version", pip.__version__, "is to old.")
+        print("    Tip:   Please update pip with ")
+        print("")
+        print("             pip install pip -U")
+        print("")
+        sys.exit()

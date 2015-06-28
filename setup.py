@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
-
-# from distutils.core import setup
+#! /usr/bin/env python
+from __future__ import print_function
 
 from setuptools import setup, find_packages
 from setuptools.command.install import install
@@ -9,9 +7,13 @@ import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
 from cloudmesh_base.util import path_expand
-from cloudmesh_base.setup import parse_requirements, os_execute, get_version_from_git
+from cloudmesh_base.setup import parse_requirements, os_execute, get_version_from_git, check_pip
 import shutil
+import sys
 from cloudmesh_base.gitinfo import GitInfo
+
+
+check_pip()
 
 version = get_version_from_git()
 
@@ -128,6 +130,7 @@ class InstallBase(install):
         banner("Requirements")
         Make.install_requirements()
         banner("Install Cloudmesh Base")
+        # os.system("pip install pip -U")
         install.run(self)
 
 

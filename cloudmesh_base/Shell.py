@@ -127,6 +127,8 @@ class Shell(object):
     def grep(cls, *args): return cls.execute('grep',args)
     @classmethod
     def dialog(cls, *args): return cls.execute('dialog',args)
+    @classmethod
+    def pip(cls, *args): return cls.execute('pip',args)
 
     @classmethod
     def remove_line_with(cls, lines, what):
