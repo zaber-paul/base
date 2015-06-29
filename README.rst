@@ -14,7 +14,7 @@ Instalation from pip
    pip install cloudmesh_base
 
 
-Installation ffrom Source
+Installation from Source
 --------------------------------
 
 ::
