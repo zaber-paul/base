@@ -41,7 +41,7 @@ class GitInfo(object):
         print(GitInfo.get_authors_by_date(header=True))
 
     @staticmethod
-    def get_authors_by_date(header=None):
+    def get_authors_by_date(header=False):
         """lists the authors of a git repository sorted by date.
 
         Example:
@@ -56,9 +56,9 @@ class GitInfo(object):
         # modified from https://github.com/jgehrcke/git-authors
 
         result = ""
-        if header:
-            result = result + "Authors\n"
-            result = result + "=======\n\n"
+        # if header:
+        #    result = result + "Authors\n"
+        #    result = result + "=======\n\n"
 
         r = Shell.git("log",
                       "--encoding=utf-8",
@@ -71,7 +71,7 @@ class GitInfo(object):
             if name not in seen:
                 seen.add(name)
                 day = time.strftime("%Y-%m-%d", time.gmtime(float(timestamp)))
-                result = result + "{:04d} ({:}): {:} ({:})\n".format(len(seen), day, name, email)
+                result = result + "* {:04d} ({:}): {:} ({:})\n".format(len(seen), day, name, email)
         return result
 
     def version(self):
