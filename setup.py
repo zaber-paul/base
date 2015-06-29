@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-#!/usr/bin/env python
-
-version = "2.6.7"
-
-# from distutils.core import setup
-=======
 #! /usr/bin/env python
 from __future__ import print_function
->>>>>>> sh
 
 from setuptools import setup, find_packages
 from setuptools.command.install import install
