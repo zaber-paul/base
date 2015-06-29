@@ -248,8 +248,9 @@ class ConfigDict(OrderedDict):
         if os.path.isfile(self['location']):
             # d = OrderedDict(read_yaml_config(self['location'], check=True))
             d = read_yaml_config(self['location'], check=True)
-            # print ("LLLL", self['location'])
-            # print ("DDDD", d)            
+            with open(self['location']) as myfile:
+                document=myfile.read()
+            x = yaml.load(document)
             try:
                 self.update(d)
             except:
@@ -299,6 +300,9 @@ class ConfigDict(OrderedDict):
         elif output in ['yml', 'yaml']:
             # d = dict(self)
             # os.write(f, yaml.dump(d, default_flow_style=False))
+            print ("iiiiiiiii")
+            pprint(self)
+            print ("iiiiiiiii")
             os.write(f, ordered_dump(OrderedDict(self),
                                      Dumper=yaml.SafeDumper,
                                      default_flow_style=False,

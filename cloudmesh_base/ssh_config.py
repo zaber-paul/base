@@ -1,5 +1,5 @@
 import os
-import sh
+from cloudmesh_base.Shell import Shell
 import json
 
 
@@ -56,9 +56,9 @@ class ssh_config(object):
     def execute(self, name, command):
         """executes the command on the named host"""
         if name in ["localhost"]:
-            r = '\n'.join(sh.sh("-c", command).split()[-1:])
+            r = '\n'.join(Shell.sh("-c", command).split()[-1:])
         else:
-            r = '\n'.join(sh.ssh(name, command).split()[-1:])
+            r = '\n'.join(Shell.ssh(name, command).split()[-1:])
         return r
     
     def local(self, command):

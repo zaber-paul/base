@@ -1,11 +1,9 @@
 pip
 future
-sh
 docopt
 pyaml
 simplejson
 nose
-python-hostlist
 prettytable
 pytimeparse
 pymongo==2.8

@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 #!/usr/bin/env python
 
 version = "2.6.7"
 
 # from distutils.core import setup
+=======
+#! /usr/bin/env python
+from __future__ import print_function
+>>>>>>> sh
 
 from setuptools import setup, find_packages
 from setuptools.command.install import install
@@ -10,13 +15,15 @@ import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
 from cloudmesh_base.util import path_expand
+from cloudmesh_base.setup import parse_requirements, os_execute, get_version_from_git, check_pip
 import shutil
+import sys
+from cloudmesh_base.gitinfo import GitInfo
 
 
-def parse_requirements(filename):
-    """ load requirements from a pip requirements file """
-    lineiter = (line.strip() for line in open(filename))
-    return [line for line in lineiter if line and not line.startswith("#")]
+check_pip()
+
+version = get_version_from_git()
 
 
 requirements = parse_requirements('requirements.txt')
@@ -29,22 +36,11 @@ home = os.path.expanduser("~")
 # MANAGE VERSION NUMBER
 #
 
-auto_create_version("cloudmesh_base", version)
+auto_create_version("cloudmesh_base", version, "version.py")
 
 # banner("Install Cloudmesh Base Requirements")
 # os.system("pip install -r requirements.txt")
 
-
-class CreateRequirementsFile(install):
-    """Create the requiremnets file."""
-    def run(self):    
-        auto_create_requirements()
-
-def os_execute(commands):
-    for command in commands.split("\n"):
-        command = command.strip()
-        print (command)
-        os.system(command)
         
 class Make(object):
 
@@ -142,6 +138,7 @@ class InstallBase(install):
         banner("Requirements")
         Make.install_requirements()
         banner("Install Cloudmesh Base")
+        # os.system("pip install pip -U")
         install.run(self)
 
 
@@ -224,6 +221,7 @@ setup(
     entry_points={
         'console_scripts': [
             'cm-incr-version = cloudmesh_base.version_incr:main',
+            'cm-authors = cloudmesh_base.gitinfo:GitInfo.print_authors',
         ],
     },
     install_requires=requirements,
@@ -235,7 +233,6 @@ setup(
         'pypi': UploadToPypi,
         'pypitest': UploadToPypitest,        
         'pypiregister': RegisterWithPypi, 
-        'create_requirements': CreateRequirementsFile,
         'yaml': SetupYaml,
         'doc': CreateDoc,
         'clean': CleanPackage,

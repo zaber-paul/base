@@ -5,7 +5,7 @@ from pprint import pprint
 
 from cloudmesh_base.Shell import Shell
 from cloudmesh_base.util import banner
-
+import time
 
 class GitInfo(object):
 
@@ -35,6 +35,45 @@ class GitInfo(object):
         """init method"""
         pass
 
+
+    @staticmethod
+    def print_authors():
+        print(GitInfo.get_authors_by_date(header=True))
+
+    @staticmethod
+    def get_authors_by_date(header=False):
+        """lists the authors of a git repository sorted by date.
+
+        Example:
+
+            0001 (2015-02-25): Gregor von Laszewski (laszewski@gmail.com)
+            0002 (2015-04-14): Fugang Wang (kevinwangfg@gmail.com)
+
+        :rtype: str
+        """
+
+
+        # modified from https://github.com/jgehrcke/git-authors
+
+        result = ""
+        # if header:
+        #    result = result + "Authors\n"
+        #    result = result + "=======\n\n"
+
+        r = Shell.git("log",
+                      "--encoding=utf-8",
+                      "--full-history",
+                      "--reverse",
+                      "--format=format:%at;%an;%ae").split("\n")
+        seen = set()
+        for line in r:
+            timestamp, name, email = line.strip().split(";")
+            if name not in seen:
+                seen.add(name)
+                day = time.strftime("%Y-%m-%d", time.gmtime(float(timestamp)))
+                result = result + "* {:04d} ({:}): {:} ({:})\n".format(len(seen), day, name, email)
+        return result
+
     def version(self):
         """
         returns the verison of the code from github
@@ -53,21 +92,18 @@ class GitInfo(object):
         format_string = "'%aN' <%cE>"
         if output == 'dict':
             format_string = "%aN\t%cE"
-        result = Shell.sort(
-            Shell.git("log",
+
+        result = sorted(set(Shell.git("log",
                       "--all",
-                      "--format=" + format_string,
-                      _tty_in=True,
-                      _tty_out=False,
-                      _piped=True), "-u")
+                      "--format=" + format_string).split("\n")))
 
         if output is None:
             return result
         elif output == "dict":
-            result = iter(result.replace("\n", "\t").split("\t")[:-1])
-            emails = dict(zip(result, result))
-            for name in emails:
-                emails[name] = emails[name]
+            emails = {}
+            for l in result:
+                (name, email) = l.split("\t")
+                emails[name] = email
             return emails
 
     def authors(self, output=None):
@@ -77,15 +113,15 @@ class GitInfo(object):
 
         :param output: if "dict" is specified a dict will be returned
         """
-        result = Shell.git("shortlog", "-s", "-n", _tty_in=True, _tty_out=False)
+        result = Shell.git("shortlog", "-s", "-n")
         if output is None:
             return result
         elif output == "dict":
-            list_string = result.replace("\n", "\t").split("\t")[:-1]
-            it = iter(list_string[::-1])
-            authors = dict(zip(it, it))
-            for name in authors:
-                authors[name] = int(authors[name])
+            authors = {}
+            for line in result.split("\n"):
+                l = " ".join(line.split()).strip()
+                (number, name) = l.split(" ", 1)
+                authors[name] = int(number)
             return authors
 
     def info(self):
@@ -111,14 +147,11 @@ class GitInfo(object):
         :param email: name of the author
         :rtype: a dict with the statistics
         """
+        result = Shell.git("log", "--all", "--stat", '--author={0}'.format(email)).split("\n")
         sums = [0, 0, 0]
-        for line in Shell.git("log", "--all", "--stat", '--author={0}'.format(email),
-                              _tty_in=True,
-                              _tty_out=False,
-                              _iter=True):
-            line = line[:-1]
-
+        for line in result:
             if " files changed" in line:
+                line = line.strip()
                 line = line.replace(" insertions(+)", "")
                 line = line.replace(" insertion(+)", "")
                 line = line.replace(" deletion(-)", "")
@@ -166,6 +199,10 @@ class GitInfo(object):
         return stats
 
 if __name__ == "__main__":
+
+    print (Shell.git("shortlog", "-n", "-s"))
+
+
     gitinfo = GitInfo()
 
     # print gitinfo.version()
