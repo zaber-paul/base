@@ -300,9 +300,6 @@ class ConfigDict(OrderedDict):
         elif output in ['yml', 'yaml']:
             # d = dict(self)
             # os.write(f, yaml.dump(d, default_flow_style=False))
-            print ("iiiiiiiii")
-            pprint(self)
-            print ("iiiiiiiii")
             os.write(f, ordered_dump(OrderedDict(self),
                                      Dumper=yaml.SafeDumper,
                                      default_flow_style=False,
