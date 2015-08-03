@@ -42,12 +42,14 @@ def convert_from_unicode(data):
         return data
 
 
-def yn_choice(message, default='y', tries=None):
+def yn_choice(message, default='y', tries=None, force=False):
     """asks for a yes/no question.
     :param message: the message containing the question
     :param default: the default answer
     """
     # http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input"""
+    if force:
+        return default
     choices = 'Y/n' if default.lower() in ('y', 'yes') else 'y/N'
     if tries is None:
         choice = raw_input("%s (%s) " % (message, choices))

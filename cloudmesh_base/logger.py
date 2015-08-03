@@ -1,11 +1,10 @@
 import logging
 import os
-
+import inspect
 from cloudmesh_base.locations import config_file
 from cloudmesh_base.util import grep
 
 
-# noinspection PyUnusedLocal
 def LOGGER(filename):
     """creates a logger with the given name.
 

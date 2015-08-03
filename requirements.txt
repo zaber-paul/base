@@ -17,3 +17,7 @@ pyaml==15.5.7
 pytimeparse==1.1.4
 pyyaml==3.11              # via pyaml
 simplejson==3.7.3
+#
+# utilities
+#
+iso8601
