@@ -1,6 +1,6 @@
 """Ascii menu class"""
 from __future__ import print_function
-
+from cloudmesh_client.common.tables import dict_printer
 
 def ascii_menu(title=None, menu_list=None):
     """
@@ -48,7 +48,7 @@ def ascii_menu(title=None, menu_list=None):
         display()
 
 
-def menu_return_num(title=None, menu_list=None, tries=1):
+def menu_return_num(title=None, menu_list=None, tries=1, with_display=True):
     """
     creates a simple ASCII menu from a list of labels
     :param title: the title of the menu
@@ -74,7 +74,9 @@ def menu_return_num(title=None, menu_list=None, tries=1):
         print()
         print()
 
-    display()
+    if with_display:
+        display()
+
     while tries > 0:
         # display()
         result = raw_input("Select between {0} - {1}: ".format(1, n))
@@ -94,3 +96,53 @@ def menu_return_num(title=None, menu_list=None, tries=1):
                 print("ERROR: wrong selection")
 
     return 'q'
+
+
+def num_choice(n, tries=1):
+
+    while tries > 0:
+        # display()
+        result = raw_input("Select between {0} - {1}: ".format(1, n))
+        if result == "q":
+            return 'q'
+        else:
+            try:
+                result = int(result)
+            except:
+                print("invalid input...")
+                tries -= 1
+                continue
+            if 0 < result <= n:
+                print("choice {0} selected.".format(result))
+                return result - 1
+            else:
+                print("ERROR: wrong selection")
+
+    return 'q'
+
+def dict_choice(d):
+    if d is None:
+        return None
+
+    elements = dict(d)
+    i = 1
+    for e in d:
+        elements[e]["id"] = i
+        i = i+1
+    #pprint(d)
+    if elements != {}:
+        print(dict_printer(elements,
+                        order=["id", "name", "comment", "uri", "fingerprint", "source"],
+                        output="table",
+                        sort_keys=True))
+    else:
+        print("ERROR: No keys in the database")
+        return
+
+    n = num_choice(i-1, tries=10)+1
+    element = None
+    for e in elements:
+        if str(elements[e]["id"]) is str(n):
+            element = elements[e]
+            break
+    return element
