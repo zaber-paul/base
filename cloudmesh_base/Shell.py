@@ -1,5 +1,5 @@
 #
-# TTTTT demo to start os command
+# demo to start os command
 #
 # from subprocess import check_output
 
