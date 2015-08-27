@@ -1,5 +1,5 @@
 #
-# demo to start os command
+# TTTTT demo to start os command
 #
 # from subprocess import check_output
 
@@ -175,26 +175,17 @@ class Shell(object):
         """
         what = platform.system().lower()
 
-        kind = None
-
+        kind = 'UNDEFINED_TERMINAL_TYPE'
         if 'linux' in what:
             kind = 'linux'
         elif 'darwin' in what:
             kind = 'darwin'
         elif 'cygwin' in what:
             kind = 'cygwin'
-        else:
-            kind = 'cmd'
+        elif 'windows' in what:
+            kind = 'windows'
 
         return kind
-
-    @classmethod
-    def ttype(cls):
-        t = cls.terminal_type()
-        if 'linux' in t or 'darwin' in t or 'cygwin' in t:
-            return 'linux'
-        elif 'cmd' in t:
-            return 'windows'
 
     @classmethod
     def which(cls, command):
@@ -246,18 +237,18 @@ class Shell(object):
         :return:
         """
         # print "--------------"
-        terminal_type = cls.ttype()
+        terminal = terminal_type()
         # print cls.command
-
-        if ('linux' in terminal_type):
+        os_command = [cmd]
+        if (terminal in ['linux', 'windows']):
             os_command = [cmd]
-        elif 'cmd' in terminal_type: # for cmd
+        elif 'cygwin' in terminal: 
             if not cls.command_exists(cmd):
                 print "ERROR: the command could not be found", cmd
                 return
             else:
                 os_command = [cls.command[cls.operating_system()][cmd]]
-
+        
 
         if isinstance(arguments, list):
             os_command = os_command + arguments
