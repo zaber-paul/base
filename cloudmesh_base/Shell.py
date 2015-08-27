@@ -237,7 +237,7 @@ class Shell(object):
         :return:
         """
         # print "--------------"
-        terminal = terminal_type()
+        terminal = cls.terminal_type()
         # print cls.command
         os_command = [cmd]
         if (terminal in ['linux', 'windows']):
