@@ -248,7 +248,7 @@ class Shell(object):
         # print "--------------"
         terminal_type = cls.ttype()
         # print cls.command
-
+        os_command = []
         if ('linux' in terminal_type):
             os_command = [cmd]
         elif 'cmd' in terminal_type: # for cmd
