@@ -29,6 +29,7 @@ tag:
 	cm-authors > AUTHORS
 	git tag
 	@echo "New Tag?"; read TAG; git tag $$TAG; python setup.py install; git commit -m $$TAG --allow-empty; git push origin --tags
+	git commit -m "version $$TAG" cloudmesh_base/version.py
 
 rmtag:
 	git tag
