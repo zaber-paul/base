@@ -6,26 +6,29 @@ from setuptools.command.install import install
 import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
-from cloudmesh_base.util import path_expand
-from cloudmesh_base.setup import parse_requirements, os_execute, \
-    get_version_from_git, check_pip
-import shutil
-from cloudmesh_base import version
+from cloudmesh_base.setup import os_execute,  check_pip
+
+from cloudmesh_base import __version__
 
 check_pip()
 
-requirements = parse_requirements('requirements.txt')
+requirements = ['wheel',
+                'tox',
+                'nose',
+                'future',
+                'docopt',
+                'prettytable',
+                'pyaml',
+                'pytimeparse==1.1.4',
+                'pyyaml',
+                'simplejson']
 
-banner("Installing Cloudmesh Base")
+
+banner("Installing cloudmesh_base {:}".format(__version__))
 
 home = os.path.expanduser("~")
 
-class CreateVersionFromGitTag(install):
-    """Create a new version number"""
-    version = get_version_from_git()
-    auto_create_version("cloudmesh_base", version, filename="version.py")
 
-        
 class Make(object):
 
     @classmethod
@@ -60,7 +63,8 @@ class Make(object):
         cls.clean()
         cls.install()
         commands = """
-            python setup.py bdist_wheel
+            python setup.py install
+            python setup.py bdist_wheel upload
             python setup.py sdist --format=bztar,zip upload
             """
         os_execute(commands)    
@@ -78,7 +82,6 @@ class Make(object):
     @classmethod
     def install(cls):
         cls.clean()
-        auto_create_version("cloudmesh_base", version)
         commands = """
             python setup.py install
             """
@@ -157,7 +160,7 @@ class PushPackage(install):
 
 setup(
     name='cloudmesh_base',
-    version=version,
+    version=__version__,
     description='A set of simple base functions and classes useful for cloudmesh and other programs',
     # description-file =
     #    README.rst
@@ -186,7 +189,6 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'cm-incr-version = cloudmesh_base.version_incr:main',
             'cm-authors = cloudmesh_base.gitinfo:GitInfo.print_authors',
         ],
     },
@@ -202,7 +204,6 @@ setup(
         'doc': CreateDoc,
         'clean': CleanPackage,
         'push': PushPackage,
-        'version': CreateVersionFromGitTag,
         },
 )
 

@@ -1,1 +1,1 @@
-version = "3.2.2"
+from cloudmesh_base.version import __version__
