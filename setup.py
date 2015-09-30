@@ -7,16 +7,12 @@ import os
 from cloudmesh_base.util import banner
 from cloudmesh_base.util import auto_create_version
 from cloudmesh_base.util import path_expand
-from cloudmesh_base.setup import parse_requirements, os_execute, get_version_from_git, check_pip
+from cloudmesh_base.setup import parse_requirements, os_execute, \
+    get_version_from_git, check_pip
 import shutil
-import sys
-from cloudmesh_base.gitinfo import GitInfo
-
+from cloudmesh_base import version
 
 check_pip()
-
-version = get_version_from_git()
-
 
 requirements = parse_requirements('requirements.txt')
 
@@ -24,14 +20,10 @@ banner("Installing Cloudmesh Base")
 
 home = os.path.expanduser("~")
 
-#
-# MANAGE VERSION NUMBER
-#
-
-auto_create_version("cloudmesh_base", version, "version.py")
-
-# banner("Install Cloudmesh Base Requirements")
-# os.system("pip install -r requirements.txt")
+class CreateVersionFromGitTag(install):
+    """Create a new version number"""
+    version = get_version_from_git()
+    auto_create_version("cloudmesh_base", version, filename="version.py")
 
         
 class Make(object):
@@ -151,24 +143,6 @@ class InstallAll(install):
         install.run(self)
 
 
-class SetupYaml(install):
-    """Upload the package to pypi."""
-
-    def run(self):
-        banner("Setup the cloudmesh_database.yaml file")
-
-        database_yaml = path_expand("~/.cloudmesh/cloudmesh_database.yaml")
-
-        if os.path.isfile(database_yaml):
-            print ("WARNING: the file {0} already exists".format(database_yaml))
-            print
-            print ("If you like to reinstall it, please remove the file")
-        else:
-            print ("Copy file:  {0} -> {1} ".format(path_expand("etc/cloudmesh_database.yaml"), database_yaml))
-            os.makedirs(path_expand("~/.cloudmesh"))
-
-            shutil.copy("etc/cloudmesh_database.yaml", path_expand("~/.cloudmesh/cloudmesh_database.yaml"))
-
 class CreateDoc(install):
     """Install requirements and the package."""
 
@@ -228,7 +202,8 @@ setup(
         'yaml': SetupYaml,
         'doc': CreateDoc,
         'clean': CleanPackage,
-        'push': PushPackage
+        'push': PushPackage,
+        'version': CreateVersionFromGitTag,
         },
 )
 

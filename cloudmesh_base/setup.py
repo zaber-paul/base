@@ -17,8 +17,8 @@ def os_execute(commands):
         os.system(command)
 
 def get_version_from_git():
-    return Shell.git('tag').split("\n")[-1]
-
+    r = Shell.git('tag').split("\n")[-1]
+    return r
 
 def check_pip():
     major = int(pip.__version__.split(".")[0])
