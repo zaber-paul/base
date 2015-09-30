@@ -26,7 +26,7 @@ clean:
 ######################################################################
 
 tag:
-	bin/new_version.py
+	bin/new_version.sh
 
 rmtag:
 	git tag
