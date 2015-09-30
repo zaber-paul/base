@@ -1,10 +1,10 @@
 cloudmesh_base 
 ==============
 
-A set of simple functions that are used in cloudmesh but also could be
-used by other projects.
+A set of helper functions that are used in cloudmesh but are also
+useful for other projects.
 
-You can install it in one of two ways. 
+You can install it in one of two ways.
 
 Instalation from pip
 ----------------------
@@ -32,7 +32,7 @@ Installation from Source
 Provided Functionality
 ----------------------------------------------------------------------
 
-* ConfigDict -- an ordered dictionary to read configurations frm YAML
+* ConfigDict -- an ordered dictionary to read configurations from YAML
   files
 * Shell -- a convenient wrapper to python sh so that pylint does not
   complain all the time when importing commands from sh
@@ -48,10 +48,12 @@ Provided Functionality
   path_expand, introspecting and printing the method name at runtime,
   copy files, replace dict values in a string similar but less
   complicated to .format, read a file to a string, write a string to a file
- 
+* hostlist -- a repackaged version of hostlist to accociate it with Parameter
+  parsing
   
 
 Source Code
 ----------------------------------------------------------------------
 
 * https://github.com/cloudmesh/base
+
