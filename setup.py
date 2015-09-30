@@ -199,7 +199,6 @@ setup(
         'pypi': UploadToPypi,
         'pypitest': UploadToPypitest,        
         'pypiregister': RegisterWithPypi, 
-        'yaml': SetupYaml,
         'doc': CreateDoc,
         'clean': CleanPackage,
         'push': PushPackage,
