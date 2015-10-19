@@ -11,10 +11,9 @@ future
 #
 # formatting packages
 #
-docopt==0.6.2
-prettytable==0.7.2
-pyaml==15.5.7
-pytimeparse==1.1.4
-pyyaml==3.11
-simplejson==3.7.3
+docopt
+prettytable
+pyaml
+pytimeparse
+simplejson
 gitchangelog
