@@ -14,7 +14,22 @@ class ssh_config(object):
 
         self.filename = os.path.expanduser(filename)
         self.load()
-        
+
+    def names(self):
+        found_names = []
+        with open(self.filename) as f:
+            content = f.readlines()
+        for line in content:
+            line = line.strip()
+            if " " in line:
+                attribute, value = line.split(" ", 1)
+                attribute = attribute.strip()
+                value = value.strip()
+                print(attribute, value)
+                if attribute.lower() in ['host']:
+                    found_names.append(value)
+        return found_names
+
     def load(self):
         """list the hosts defined in the ssh config file"""
         with open(self.filename) as f:
@@ -29,11 +44,12 @@ class ssh_config(object):
             else:
                 attribute = line[0]
                 value = line[1]
-                if attribute in ['Host']:
+                if attribute in ['Host ', 'host ']:
                     host = value
                     hosts[host] = {'host': host}
                 else:
-                    # In case of special configuratin lines, such as port forwarding,
+                    # In case of special configuration lines, such as port
+                    # forwarding,
                     # there would be no 'Host india' line.
                     if host in hosts:
                         hosts[host][attribute] = value

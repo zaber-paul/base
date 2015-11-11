@@ -89,6 +89,30 @@ def banner(txt=None, c="#", debug=True):
             print "#", 70 * c
 
 
+def str_banner(txt=None, c="#", debug=True):
+    """prints a banner of the form with a frame of # arround the txt::
+
+      ############################
+      # txt
+      ############################
+
+    .
+
+    :param txt: a text message to be printed
+    :type txt: string
+    :param c: the character used instead of c
+    :type c: character
+    """
+    str = ""
+    if debug:
+        str += "\n"
+        str += "# " + 70 * c
+        if txt is not None:
+            str += "# " + txt
+            str += "# " + 70 * c
+    return str
+
+
 # noinspection PyPep8Naming
 def HEADING(txt=None):
     """
