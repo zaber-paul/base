@@ -25,7 +25,6 @@ class ssh_config(object):
                 attribute, value = line.split(" ", 1)
                 attribute = attribute.strip()
                 value = value.strip()
-                print(attribute, value)
                 if attribute.lower() in ['host']:
                     found_names.append(value)
         return found_names
