@@ -2,12 +2,8 @@
 from __future__ import print_function
 
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-import os
-from cloudmesh_base.util import banner
-from cloudmesh_base.util import auto_create_version
-from cloudmesh_base.setup import os_execute,  check_pip
 
+from cloudmesh_base.setup import *
 from cloudmesh_base import __version__
 
 check_pip()
@@ -29,134 +25,44 @@ banner("Installing cloudmesh_base {:}".format(__version__))
 home = os.path.expanduser("~")
 
 
-class Make(object):
-
-    @classmethod
-    def github(cls):
-        commands = """
-            git commit -a
-            git push
-            """
-        os_execute(commands)
-    
-    @classmethod
-    def clean(cls):
-        commands = """
-            rm -rf docs/build
-            rm -rf build
-            rm -rf cloudmesh_base.egg-info
-            rm -rf dist
-            """
-        os_execute(commands)
-
-    @classmethod        
-    def doc(cls):
-        cls.install()
-        commands = """
-            sphinx-apidoc -o docs/source cloudmesh_base
-            cd docs; make -f Makefile html
-            """
-        os_execute(commands)    
-
-    @classmethod
-    def pypi(cls):
-        cls.clean()
-        cls.install()
-        commands = """
-            python setup.py install
-            python setup.py bdist_wheel upload
-            python setup.py sdist --format=bztar,zip upload
-            """
-        os_execute(commands)    
-
-    @classmethod
-    def pypitest(cls):
-        cls.clean()
-        cls.install()
-        commands = """
-            python setup.py bdist_wheel
-            python setup.py sdist --format=bztar,zip upload -r https://testpypi.python.org/pypi
-            """
-        os_execute(commands)    
-        
-    @classmethod
-    def install(cls):
-        cls.clean()
-        commands = """
-            python setup.py install
-            """
-        os_execute(commands)    
-
+"""
     @classmethod
     def install_requirements(cls):
         for requirement in requirements:
             os.system("pip install {:}".format(requirement))
-
+"""
 #
 # INSTALL
 #
 
-class CleanPackage(install):
-    def run(self):
-        Make.clean()
 
-            
-class UploadToPypi(install):
-    """Upload the package to pypi."""
-    def run(self):
-        Make.pypi()
-
-class UploadToPypitest(install):
-    """Upload the package to pypi."""
-    def run(self):
-        Make.pypitest()
-
-        
-class RegisterWithPypi(install):
-    """Upload the package to pypi."""
-    def run(self):
-        banner("Register with Pypi")
-        # os.system("python shell_plugins.py register")
-        print ("not implemented")
-        
 class InstallBase(install):
     """Install the package."""
     def run(self):
         banner("Requirements")
-        Make.install_requirements()
+        #Make.install_requirements()
         banner("Install Cloudmesh Base")
         # os.system("pip install pip -U")
         install.run(self)
-
+        pass
 
 class InstallRequirements(install):
     """Install the requirements."""
     def run(self):
-        auto_create_requirements()
-        banner("Install Cloudmesh Base Requirements")
-        os.system("pip install -r requirements.txt")
-        
+        #auto_create_requirements()
+        #banner("Install Cloudmesh Base Requirements")
+        #os.system("pip install -r requirements.txt")
+        pass
 
 class InstallAll(install):
     """Install requirements and the package."""
     def run(self):
-        banner("Install Cloudmesh Base Requirements")
-        os.system("pip install -r requirements.txt")
-        banner("Install Cloudmesh Base")        
-        install.run(self)
+        #banner("Install Cloudmesh Base Requirements")
+        #os.system("pip install -r requirements.txt")
+        #banner("Install Cloudmesh Base")
+        #install.run(self)
+        pass
 
-
-class CreateDoc(install):
-    """Install requirements and the package."""
-
-    def run(self):
-        Make.doc()
-
-class PushPackage(install):
-    """Install requirements and the package."""
-
-    def run(self):
-        Make.github()
 
 setup(
     name='cloudmesh_base',
@@ -198,12 +104,14 @@ setup(
         'install': InstallBase,
         'requirements': InstallRequirements,
         'all': InstallAll,
-        'pypi': UploadToPypi,
-        'pypitest': UploadToPypitest,        
-        'pypiregister': RegisterWithPypi, 
-        'doc': CreateDoc,
-        'clean': CleanPackage,
-        'push': PushPackage,
+        'pypi': Make("pypi", repo='pypi'),
+        'pypifinal': Make("pypi", repo='final'),
+        'register': Make("pypi", repo='pypi'),
+        'registerfinal': Make("pypi", repo='final'),
+        'rmtag': Make('rmtag'),
+        'tag': Make("tag"),
+        'doc': Make("doc"),
+        'view': Make("view"),
+        'clean': Make("clean"),
         },
 )
-
