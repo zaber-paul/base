@@ -70,7 +70,7 @@ class InstallAll(install):
 setup(
     name='cloudmesh_base',
     version=__version__,
-    description='A set of simple base functions and classes useful for cloudmesh and other programs',
+    description='cloudmesh_base: A set of functions and classes useful for cloudmesh and other programs',
     # description-file =
     #    README.rst
     author='The Cloudmesh Team',
