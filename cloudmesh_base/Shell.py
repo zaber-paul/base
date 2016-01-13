@@ -112,7 +112,7 @@ class Shell(object):
     @classmethod
     def sort(cls, *args): return cls.execute('sort',args)
     @classmethod
-    def sh(cls, *args): return cls.execute('ssh',args)
+    def sh(cls, *args): return cls.execute('sh',args)
     @classmethod
     def ssh(cls, *args): return cls.execute('ssh',args)
     @classmethod

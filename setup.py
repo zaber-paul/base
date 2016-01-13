@@ -15,9 +15,12 @@ requirements = ['wheel',
                 'docopt',
                 'prettytable',
                 'pyaml',
-                'pytimeparse==1.1.4',
+                'pytimeparse',
                 'pyyaml',
-                'simplejson']
+                'simplejson',
+                'gitchangelog']
+
+
 
 
 banner("Installing cloudmesh_base {:}".format(__version__))
