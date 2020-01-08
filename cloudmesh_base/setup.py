@@ -61,7 +61,8 @@ def os_execute(commands):
         os.system(command)
 
 def get_version_from_git():
-    r = Shell.git('tag').split("\n")[-1]
+    #r = Shell.git('tag').split("\n")[-1]
+    r = "4.0.0"
     return r
 
 def check_pip():
