@@ -1,3 +1,4 @@
+from __future__ import print_function
 from string import Template
 import inspect
 import glob
@@ -13,7 +14,7 @@ def grep(pattern, filename):
     String matching only, does not do REs as currently implemented.
     """
     try:
-        return (L for L in open(filename) if L.find(pattern) >= 0).next()
+        return next((L for L in open(filename) if L.find(pattern) >= 0))
     except StopIteration:
         return ''
 
@@ -63,7 +64,7 @@ def yn_choice(message, default='y', tries=None):
             elif choice in ['n', 'no', 'q']:
                 return False
             else:
-                print "Invalid input..."
+                print("Invalid input...")
                 tries -= 1
 
 
@@ -82,11 +83,11 @@ def banner(txt=None, c="#", debug=True):
     :type c: character
     """
     if debug:
-        print
-        print "#", 70 * c
+        print()
+        print("#", 70 * c)
         if txt is not None:
-            print "#", txt
-            print "#", 70 * c
+            print("#", txt)
+            print("#", 70 * c)
 
 
 def str_banner(txt=None, c="#", debug=True):

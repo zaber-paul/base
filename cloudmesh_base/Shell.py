@@ -1,3 +1,4 @@
+from __future__ import print_function
 #
 # demo to start os command
 #
@@ -217,7 +218,7 @@ class Shell(object):
         if 'windows' in t:
             #only for windows
             cls.find_cygwin_executables()
-            print '\n'.join(cls.command['windows'])
+            print('\n'.join(cls.command['windows']))
         else:
             print ("ERROR: this command is not supported for this OS")
 
@@ -244,7 +245,7 @@ class Shell(object):
             os_command = [cmd]
         elif 'cygwin' in terminal: 
             if not cls.command_exists(cmd):
-                print "ERROR: the command could not be found", cmd
+                print("ERROR: the command could not be found", cmd)
                 return
             else:
                 os_command = [cls.command[cls.operating_system()][cmd]]
@@ -257,7 +258,7 @@ class Shell(object):
         elif isinstance(arguments, str):
             os_command = os_command + arguments.split()
         else:
-            print "ERROR: Wrong parameter type", type(arguments)
+            print("ERROR: Wrong parameter type", type(arguments))
 
         result = subprocess.check_output(os_command, stderr=subprocess.STDOUT).rstrip()
 
@@ -288,10 +289,10 @@ class Shell(object):
 def main():
     shell = Shell()
 
-    print shell.terminal_type()
+    print(shell.terminal_type())
     
     r = shell.execute('pwd') # copy line replace
-    print r
+    print(r)
 
     #shell.list()
 
@@ -307,20 +308,20 @@ def main():
         print "---------------------"
     """
     r = shell.execute('ls', ["-l", "-a"])
-    print r
+    print(r)
 
     r = shell.execute('ls', "-l -a")
-    print r
+    print(r)
 
 
     r = shell.ls("-aux")
-    print r
+    print(r)
 
     r = shell.ls("-a", "-u", "-x")
-    print r
+    print(r)
 
     r = shell.pwd()
-    print r
+    print(r)
 
     
 

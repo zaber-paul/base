@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sh
 from cloudmesh_base.util import path_expand
@@ -360,9 +361,9 @@ class Shell(object):
     
                                                                     
 if __name__ == "__main__":
-    print Shell.ls("-1")
-    print Shell.ls()
-    print Shell.ls("-A", "-G")    
+    print(Shell.ls("-1"))
+    print(Shell.ls())
+    print(Shell.ls("-A", "-G"))    
 
-    print Shell.pwd()
+    print(Shell.pwd())
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 from mongoengine import Document, StringField
 from cloudmesh_database.dbconn import get_mongo_db, get_mongo_dbname_from_collection, DBConnFactory
 
@@ -44,19 +45,19 @@ def main():
         arecord.save()
     # query all records in the db that are 'ExampleRecord' object
     allrecords = ExampleRecord.objects()
-    print "\nAll records in db"
-    print "-"*80
+    print("\nAll records in db")
+    print("-"*80)
     for arecord in allrecords:
-        print 'city:%s\t|country:%s' % (arecord.city, arecord.country)
-        print '\tdescription:%s' % arecord.description
+        print('city:%s\t|country:%s' % (arecord.city, arecord.country))
+        print('\tdescription:%s' % arecord.description)
     
     # query with condition
     somerecords = ExampleRecord.objects(country='US')
-    print "\nUS cities in db"
-    print "-"*80
+    print("\nUS cities in db")
+    print("-"*80)
     for arecord in somerecords:
-        print 'city:%s\t|country:%s' % (arecord.city, arecord.country)
-        print '\tdescription:%s' % arecord.description
+        print('city:%s\t|country:%s' % (arecord.city, arecord.country))
+        print('\tdescription:%s' % arecord.description)
 
 if __name__ == '__main__':
     main()

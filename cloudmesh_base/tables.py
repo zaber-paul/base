@@ -1,11 +1,12 @@
 """Convenient methods and classes to print tables"""
+from __future__ import absolute_import
 from pytimeparse.timeparse import timeparse
 from prettytable import PrettyTable
 from datetime import datetime
 from datetime import timedelta
 import json
 import yaml
-import hostlist
+from . import hostlist
 
 from cloudmesh_base.util import convert_from_unicode
 

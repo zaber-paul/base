@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 from cloudmesh_base.tables import dict_printer
 from cloudmesh_base.tables import print_format_dict

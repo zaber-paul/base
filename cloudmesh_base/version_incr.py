@@ -1,3 +1,4 @@
+from __future__ import print_function
 from cloudmesh_base.Shell import Shell
 from cloudmesh_base.util import banner
 
@@ -43,7 +44,7 @@ class version_incr(object):
 
     def incr(self):
         """reads the version number"""
-        print "Changing version in file", self.filename
+        print("Changing version in file", self.filename)
         f_in = open(self.filename, "r")
         f_out = open("tmp", "w")
         for line in f_in:
@@ -61,7 +62,7 @@ class version_incr(object):
         f_out.close()
         shutil.move("tmp", self.filename)
 
-        print "Changed version from {:} to {:}".format(old_version, new_version)
+        print("Changed version from {:} to {:}".format(old_version, new_version))
 
     def git_commit_needed(self):
         content = Shell.git("status")
@@ -72,7 +73,7 @@ class version_incr(object):
     def tag(self):
         v = self.find()
         banner("v")
-        print v
+        print(v)
 
         #v = ".".join(self.version)
         os.system("python shell_plugins.py install")
@@ -80,12 +81,12 @@ class version_incr(object):
         if self.git_commit_needed():
             banner("git commit")
             command = "git commit -m 'version {:}' {:}".format(v,self.filename)
-            print "CCC", command
+            print("CCC", command)
             os.system(command)
             os.system("git push")
 
         else:
-            print "git commit not needed"
+            print("git commit not needed")
 
         Shell.git("tag", "-a", v, "-m", "version {:}".format(v))
         Shell.git("push", "origin", "--tags")
@@ -106,10 +107,10 @@ def main():
         v = version_incr(filename, kind=kind)
         v.incr()
     else:
-        print "usage: cm-incr-version filename (release|minor|major)"
-        print "           increments the version number"
-        print "usage: cm-incr-version filename tag"
-        print "           tags the version in github"
+        print("usage: cm-incr-version filename (release|minor|major)")
+        print("           increments the version number")
+        print("usage: cm-incr-version filename tag")
+        print("           tags the version in github")
 
 
 
