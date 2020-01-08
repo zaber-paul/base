@@ -1,4 +1,9 @@
 from __future__ import print_function
+from builtins import next
+from builtins import str
+from builtins import input
+from builtins import map
+from past.builtins import basestring
 from string import Template
 import inspect
 import glob
@@ -36,9 +41,9 @@ def convert_from_unicode(data):
     if isinstance(data, basestring):
         return str(data)
     elif isinstance(data, collections.Mapping):
-        return dict(map(convert_from_unicode, data.iteritems()))
+        return dict(list(map(convert_from_unicode, iter(data.items()))))
     elif isinstance(data, collections.Iterable):
-        return type(data)(map(convert_from_unicode, data))
+        return type(data)(list(map(convert_from_unicode, data)))
     else:
         return data
 
@@ -51,12 +56,12 @@ def yn_choice(message, default='y', tries=None):
     # http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input"""
     choices = 'Y/n' if default.lower() in ('y', 'yes') else 'y/N'
     if tries is None:
-        choice = raw_input("%s (%s) " % (message, choices))
+        choice = input("%s (%s) " % (message, choices))
         values = ('y', 'yes', '') if default == 'y' else ('y', 'yes')
         return True if choice.strip().lower() in values else False
     else:
         while tries > 0:
-            choice = raw_input("%s (%s) (%s)" %
+            choice = input("%s (%s) (%s)" %
                                (message, choices, "'q' to discard"))
             choice = choice.strip().lower()
             if choice in ['y', 'yes']:

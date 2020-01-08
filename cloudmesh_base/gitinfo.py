@@ -1,6 +1,9 @@
 """managing information from GIT"""
 from __future__ import print_function
 
+from builtins import str
+from builtins import range
+from builtins import object
 from pprint import pprint
 
 from cloudmesh_base.Shell import Shell

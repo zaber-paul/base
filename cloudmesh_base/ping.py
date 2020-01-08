@@ -1,5 +1,6 @@
 """Ping a machine"""
 
+from builtins import zip
 from cloudmesh_base.Shell import Shell 
 
 
@@ -19,7 +20,7 @@ def ping(host):
         attributes = attributes.strip().split("/")
         values = values.strip().split("/")
 
-        data = dict(zip(attributes, values))
+        data = dict(list(zip(attributes, values)))
         data['loss'] = result[-2].split(",")[2].split("%")[0].strip() + "%"
     except:
         data = {}

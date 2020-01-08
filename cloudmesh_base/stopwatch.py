@@ -6,6 +6,7 @@ However the java class is still mor fancy as we can suspend and resume. At a
 later time we may want o also introduce these features.
 """
 
+from builtins import object
 import time
 
 
@@ -28,7 +29,7 @@ class StopWatch(object):
 
     def keys(self):
         """returns the names of the timers"""
-        return self.timer_end.keys()
+        return list(self.timer_end.keys())
 
     def start(self, name):
         """

@@ -9,6 +9,7 @@ from __future__ import print_function
 # print (output)
 
 
+from builtins import object
 import subprocess
 import glob
 import json

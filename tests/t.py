@@ -1,8 +1,9 @@
+from builtins import object
 from cloudmesh_base.base import HEADING
 from cloudmesh_pbs.database import pbs_db, pbs_shelve
 import os
  
-class TestDatabase:
+class TestDatabase(object):
  
     filename = "pbs.db"
     

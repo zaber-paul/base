@@ -1,4 +1,5 @@
 from __future__ import print_function
+from builtins import object
 import os
 from cloudmesh_base.Shell import Shell
 import json
@@ -57,7 +58,7 @@ class ssh_config(object):
         self.hosts = hosts
 
     def list(self):
-        return self.hosts.keys()
+        return list(self.hosts.keys())
 
     def __str__(self):
         return json.dumps(self.hosts, indent=4)

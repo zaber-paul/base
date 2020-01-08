@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+from builtins import object
 from cloudmesh_base.tables import dict_printer
 from cloudmesh_base.tables import print_format_dict
 from cloudmesh_base.tables import array_dict_table_printer
@@ -7,7 +8,7 @@ from cloudmesh_base.tables import column_table
 from cloudmesh_base.tables import row_table
 from cloudmesh_base.util  import HEADING
 
-class TestDatabase:
+class TestDatabase(object):
  
     data = {
         "x": {"a": 1, "b": "2"},

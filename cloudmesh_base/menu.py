@@ -2,6 +2,8 @@
 from __future__ import print_function
 
 
+from builtins import str
+from builtins import input
 def ascii_menu(title=None, menu_list=None):
     """
     creates a simple ASCII menu from a list of tuples containing a label
@@ -30,7 +32,7 @@ def ascii_menu(title=None, menu_list=None):
     display()
     running = True
     while running:
-        result = raw_input("Select between {0} - {1}: ".format(1, n))
+        result = input("Select between {0} - {1}: ".format(1, n))
         print("<{0}>".format(result))
         if result.strip() in ["q"]:
             running = False
@@ -77,7 +79,7 @@ def menu_return_num(title=None, menu_list=None, tries=1, with_display=True):
     display()
     while tries > 0:
         # display()
-        result = raw_input("Select between {0} - {1}: ".format(1, n))
+        result = input("Select between {0} - {1}: ".format(1, n))
         if result == "q":
             return 'q'
         else:
@@ -101,7 +103,7 @@ def num_choice(n, tries=1):
 
     while tries > 0:
         # display()
-        result = raw_input("Select between {0} - {1}: ".format(1, n))
+        result = input("Select between {0} - {1}: ".format(1, n))
         if result == "q":
             return 'q'
         else:

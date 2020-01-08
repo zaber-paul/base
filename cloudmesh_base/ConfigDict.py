@@ -2,6 +2,8 @@
 
 from __future__ import print_function
 
+from builtins import str
+from builtins import range
 import ast
 from collections import OrderedDict
 import json
@@ -88,7 +90,7 @@ def ordered_dump(data, stream=None, Dumper=yaml.Dumper, **kwds):
     def _dict_representer(dumper, data):
         return dumper.represent_mapping(
             yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-            data.items())
+            list(data.items()))
     OrderedDumper.add_representer(OrderedDict, _dict_representer)
     return yaml.dump(data, stream, OrderedDumper, **kwds)
 
@@ -162,13 +164,13 @@ class OrderedJsonEncoder(simplejson.JSONEncoder):
         if isinstance(o, OrderedDict):
             return "{" + ",\n ".join([self.encode(k) + ":" +
                                      self.encode(v, depth + 1)
-                                     for (k, v) in o.iteritems()]) + "}\n"
+                                     for (k, v) in o.items()]) + "}\n"
         else:
             return simplejson.JSONEncoder.encode(self, o)
 
 
 def custom_print(data_structure, indent):
-    for key, value in data_structure.items():
+    for key, value in list(data_structure.items()):
         print("\n%s%s:" % (' ' * attribute_indent * indent, str(key)), end=' ')
         if isinstance(value, OrderedDict):
             custom_print(value, indent + 1)

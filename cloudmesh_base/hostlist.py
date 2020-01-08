@@ -42,6 +42,8 @@ corner cases the behaviour of this module have not been compared for
 compatibility with pdsh/dshbak/SLURM et al.
 """
 
+from builtins import range
+from builtins import object
 __version__ = "1.14"
 
 import re
@@ -176,7 +178,7 @@ def expand_range(prefix, range_):
         raise BadHostlist("range too large")
 
     results = []
-    for i in xrange(low, high + 1):
+    for i in range(low, high + 1):
         results.append("%s%0*d" % (prefix, width, i))
     return results
 

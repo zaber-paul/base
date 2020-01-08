@@ -1,4 +1,5 @@
 from __future__ import print_function
+from builtins import object
 import traceback
 
 from cloudmesh_base.locations import config_file

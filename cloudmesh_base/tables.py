@@ -1,5 +1,6 @@
 """Convenient methods and classes to print tables"""
 from __future__ import absolute_import
+from builtins import str
 from pytimeparse.timeparse import timeparse
 from prettytable import PrettyTable
 from datetime import datetime
@@ -52,10 +53,10 @@ def dict_table_printer(d, order=None, header=None, sort_keys=True):
     :param header: The Header of each of the columns
     
     """
-    first_element = d.keys()[0]
+    first_element = list(d.keys())[0]
             
     def _keys():
-        return d[first_element].keys()
+        return list(d[first_element].keys())
 
     def _get(element, key):
         try:
@@ -98,7 +99,7 @@ def print_format_dict(d, header=None, kind='table'):
     elif kind == "yaml":
         return yaml.dump(d, default_flow_style=False)
     else:
-        return two_column_table(d.keys(), header)
+        return two_column_table(list(d.keys()), header)
 
 
 def array_dict_table_printer(array, order=None, header=None, vertical=False):
@@ -117,7 +118,7 @@ def array_dict_table_printer(array, order=None, header=None, vertical=False):
         
     # header
     if header is None:
-        header = array[0].keys()
+        header = list(array[0].keys())
 
     if order is None:
         order = header
@@ -161,7 +162,7 @@ def column_table(column_dict, order=None):
                   The order is specified by the key names of the dict.
     """
     # header
-    header = column_dict.keys()
+    header = list(column_dict.keys())
     x = PrettyTable()
     if order is None:
         order = header
@@ -178,7 +179,7 @@ def row_table(d, order=None, labels=None):
                   The order is specified by the key names of the dict.
     """
     # header
-    header = d.keys()
+    header = list(d.keys())
     x = PrettyTable(labels)
     if order is None:
         order = header
@@ -189,7 +190,7 @@ def row_table(d, order=None, labels=None):
             for element in value[1:]:
                 x.add_row(["", element])
         elif type(value) == dict:
-            value_keys = value.keys()
+            value_keys = list(value.keys())
             first_key = value_keys[0]
             rest_keys = value_keys[1:]
             x.add_row([key, "{0} : {1}".format(first_key, value[first_key])])
@@ -212,8 +213,8 @@ def two_column_table(column_dict, header=['Default', 'Value']):
     if not header:
         header = ['Default', 'Value']
     x = PrettyTable()
-    x.add_column(header[0], column_dict.keys())
-    x.add_column(header[1], column_dict.values())
+    x.add_column(header[0], list(column_dict.keys()))
+    x.add_column(header[1], list(column_dict.values()))
     x.align = "l"
     return x
 
@@ -246,7 +247,7 @@ def table_printer(the_dict, header_info=None):
     else:
         result = ''
     if isinstance(the_dict, dict):
-        for name, value in the_dict.iteritems():
+        for name, value in the_dict.items():
             result = result + \
                 '<tr><td>{0}</td><td>{1}</td></tr>'\
                 .format(name.title(), str(table_printer(value)))
@@ -255,7 +256,7 @@ def table_printer(the_dict, header_info=None):
     elif isinstance(the_dict, list):
         for element in the_dict:
             try:
-                for name, value in element.iteritems():
+                for name, value in element.items():
                     result = result + \
                         '<tr><td>{0}</td><td>{1}</td></tr>'\
                         .format(name.title(), str(table_printer(value)))
@@ -310,7 +311,7 @@ def dict_key_list_table_printer(d, indexed=False):
      | t
     """
     x = PrettyTable()
-    temp = d.values()
+    temp = list(d.values())
     l = 0
     for item in temp:
         l0 = len(item)
@@ -324,7 +325,7 @@ def dict_key_list_table_printer(d, indexed=False):
             index_list = hostlist.expand_hostlist("[1-{0}]".format(str(l)))
         x.add_column("index", index_list)
         
-    for k, v in d.iteritems():
+    for k, v in d.items():
         v0 = v + [" "]*(l - len(v))
         x.add_column(k, v0)
     x.align = "l"
